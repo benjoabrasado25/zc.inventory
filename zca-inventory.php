@@ -67,36 +67,47 @@ class ZCA_Inventory_Main {
     }
 
     public function activate() {
+        // Store users with old roles BEFORE removing them
+        $old_owners = get_users(array('role' => 'zc_owner'));
+        $old_cashiers = get_users(array('role' => 'zc_cashier'));
+
+        // Also check for users who might have lost their zca_ roles
+        $users_to_check = get_users(array('role__not_in' => array('administrator', 'editor', 'author', 'contributor', 'subscriber')));
+
         // Create database tables
         ZCA_Database::create_tables();
 
-        // Create custom roles
+        // Create custom roles (this removes and recreates them)
         ZCA_Roles::create_roles();
 
-        // Migrate old user roles from zc_ to zca_
-        $this->migrate_user_roles();
+        // Migrate users from old zc_ roles
+        foreach ($old_owners as $user) {
+            $user->set_role('zca_owner');
+        }
+
+        foreach ($old_cashiers as $user) {
+            $user->set_role('zca_cashier');
+        }
+
+        // Check users who might have no role and restore them
+        foreach ($users_to_check as $user) {
+            $user_obj = new WP_User($user->ID);
+            if (empty($user_obj->roles)) {
+                // User has no role, check in usermeta for old role
+                $capabilities = get_user_meta($user->ID, 'wp_capabilities', true);
+                if (is_array($capabilities)) {
+                    if (isset($capabilities['zc_owner']) || isset($capabilities['zca_owner'])) {
+                        $user->set_role('zca_owner');
+                    } elseif (isset($capabilities['zc_cashier']) || isset($capabilities['zca_cashier'])) {
+                        $user->set_role('zca_cashier');
+                    }
+                }
+            }
+        }
 
         // Flush rewrite rules
         $this->register_rewrite_rules();
         flush_rewrite_rules();
-    }
-
-    private function migrate_user_roles() {
-        global $wpdb;
-
-        // Get all users with old zc_owner role
-        $old_owners = get_users(array('role' => 'zc_owner'));
-        foreach ($old_owners as $user) {
-            $user->remove_role('zc_owner');
-            $user->add_role('zca_owner');
-        }
-
-        // Get all users with old zc_cashier role
-        $old_cashiers = get_users(array('role' => 'zc_cashier'));
-        foreach ($old_cashiers as $user) {
-            $user->remove_role('zc_cashier');
-            $user->add_role('zca_cashier');
-        }
     }
 
     public function deactivate() {
