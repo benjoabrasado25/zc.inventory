@@ -23,6 +23,7 @@ define('ZC_INVENTORY_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('ZC_INVENTORY_PLUGIN_FILE', __FILE__);
 
 // Include required files
+require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-license.php';
 require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-database.php';
 require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-roles.php';
 require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-settings.php';
@@ -83,6 +84,9 @@ class ZC_Inventory_Main {
     }
 
     public function init() {
+        // Initialize license first
+        ZC_License::init();
+
         // Initialize components
         ZC_Settings::init();
         ZC_Auth::init();
@@ -243,6 +247,18 @@ class ZC_Inventory_Main {
             if ($page === 'logout') {
                 ZC_Auth::logout();
                 return;
+            }
+
+            // Pages that don't require license validation
+            $public_pages = array('login');
+
+            // Check license for authenticated pages
+            if (!in_array($page, $public_pages)) {
+                if (!ZC_License::is_valid()) {
+                    // Redirect to WordPress admin to show license notice
+                    wp_redirect(admin_url('options-general.php?page=zca-license'));
+                    exit;
+                }
             }
 
             // Load appropriate template
