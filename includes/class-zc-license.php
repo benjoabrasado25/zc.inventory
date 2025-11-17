@@ -336,7 +336,8 @@ class ZC_License {
             'headers' => array('Content-Type' => 'application/json'),
             'body' => json_encode(array(
                 'key' => $license_key,
-                'siteUrl' => self::$site_url
+                'siteUrl' => self::$site_url,
+                'product' => 'ZCA Inventory'
             )),
             'timeout' => 15
         ));
@@ -384,7 +385,8 @@ class ZC_License {
             'headers' => array('Content-Type' => 'application/json'),
             'body' => json_encode(array(
                 'key' => $license_key,
-                'siteUrl' => self::$site_url
+                'siteUrl' => self::$site_url,
+                'product' => 'ZCA Inventory'
             )),
             'timeout' => 15
         ));
@@ -436,7 +438,8 @@ class ZC_License {
             'headers' => array('Content-Type' => 'application/json'),
             'body' => json_encode(array(
                 'key' => $license_key,
-                'siteUrl' => self::$site_url
+                'siteUrl' => self::$site_url,
+                'product' => 'ZCA Inventory'
             )),
             'timeout' => 15
         ));
