@@ -73,9 +73,30 @@ class ZCA_Inventory_Main {
         // Create custom roles
         ZCA_Roles::create_roles();
 
+        // Migrate old user roles from zc_ to zca_
+        $this->migrate_user_roles();
+
         // Flush rewrite rules
         $this->register_rewrite_rules();
         flush_rewrite_rules();
+    }
+
+    private function migrate_user_roles() {
+        global $wpdb;
+
+        // Get all users with old zc_owner role
+        $old_owners = get_users(array('role' => 'zc_owner'));
+        foreach ($old_owners as $user) {
+            $user->remove_role('zc_owner');
+            $user->add_role('zca_owner');
+        }
+
+        // Get all users with old zc_cashier role
+        $old_cashiers = get_users(array('role' => 'zc_cashier'));
+        foreach ($old_cashiers as $user) {
+            $user->remove_role('zc_cashier');
+            $user->add_role('zca_cashier');
+        }
     }
 
     public function deactivate() {
