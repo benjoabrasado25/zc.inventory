@@ -61,15 +61,23 @@ class ZCA_License {
      * Auto-activate trial on first installation
      */
     public static function auto_activate_trial() {
-        // Check if already activated
+        // Check if already has a valid license
+        if (self::is_valid()) {
+            error_log('ZCA License: Valid license already exists, skipping auto-trial');
+            return; // Already has a valid license
+        }
+
+        // Check if already has a license key (user entered manually)
         $license_key = get_option(self::$license_option);
         if ($license_key) {
-            return; // Already has a license
+            error_log('ZCA License: License key already exists, skipping auto-trial');
+            return; // Already has a license key
         }
 
         // Check if trial was already attempted
         $trial_attempted = get_option('zca_trial_attempted');
         if ($trial_attempted) {
+            error_log('ZCA License: Trial already attempted, skipping auto-trial');
             return; // Trial already attempted
         }
 
@@ -77,7 +85,6 @@ class ZCA_License {
         update_option('zca_trial_attempted', true);
 
         // Try to activate trial automatically
-        // For now, just set a temporary valid license for testing
         error_log('ZCA License: Auto-activating trial for site: ' . self::get_site_url());
 
         // TODO: Call API to activate trial properly
@@ -400,6 +407,9 @@ class ZCA_License {
         $body = json_decode(wp_remote_retrieve_body($response), true);
 
         if ($body && $body['success']) {
+            // Add 'valid' field for consistency
+            $body['valid'] = true;
+
             // Cache license data
             set_transient(self::$license_data_option, $body, DAY_IN_SECONDS);
 
@@ -515,7 +525,21 @@ class ZCA_License {
      */
     public static function is_valid() {
         $license_data = get_transient(self::$license_data_option);
-        return $license_data && isset($license_data['valid']) && $license_data['valid'];
+
+        if (!$license_data) {
+            return false;
+        }
+
+        // Check for 'valid' field (set by activate_license) or 'success' field (from API)
+        if (isset($license_data['valid']) && $license_data['valid']) {
+            return true;
+        }
+
+        if (isset($license_data['success']) && $license_data['success']) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
