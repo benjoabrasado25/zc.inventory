@@ -1,4 +1,4 @@
-# Z Inventory - WordPress Inventory Management System
+# ZCA Inventory - WordPress Inventory Management System
 
 A comprehensive inventory management plugin for WordPress with POS (Point of Sale) functionality, designed for small to medium businesses.
 
@@ -65,7 +65,7 @@ A comprehensive inventory management plugin for WordPress with POS (Point of Sal
 
 ### Step 1: Upload and Activate
 
-1. Upload the `zc-inventory` folder to `/wp-content/plugins/`
+1. Upload the `zca-inventory` folder to `/wp-content/plugins/`
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. The plugin will automatically:
    - Create necessary database tables
@@ -96,9 +96,9 @@ After activation, you'll need to create an owner account:
 
 ### Step 2: First Login
 
-1. Navigate to the login page: `http://yoursite.com/zc-inventory/login`
+1. Navigate to the login page: `http://yoursite.com/zca-inventory/login`
    - Replace `yoursite.com` with your actual domain
-   - Example: `http://localhost/mysite/zc-inventory/login`
+   - Example: `http://localhost/mysite/zca-inventory/login`
 2. Enter your owner username and password
 3. Click **"Login"**
 4. You'll be redirected to the Owner Dashboard
@@ -109,7 +109,7 @@ Once logged in as Owner, follow these steps:
 
 #### A. Add Products
 1. Click **"Products"** in the navigation menu
-   - URL: `/zc-inventory/products`
+   - URL: `/zca-inventory/products`
 2. Click **"Add Product"** button
 3. Fill in product details:
    - Product Name (required)
@@ -121,7 +121,7 @@ Once logged in as Owner, follow these steps:
 
 #### B. Create Cashier Accounts
 1. Click **"Cashiers"** in the navigation menu
-   - URL: `/zc-inventory/cashiers`
+   - URL: `/zca-inventory/cashiers`
 2. Click **"Add Cashier"** button
 3. Fill in cashier details:
    - Username (required) - used for login
@@ -129,7 +129,7 @@ Once logged in as Owner, follow these steps:
    - Email (required)
    - Password (required) - minimum 8 characters
 4. Click **"Add Cashier"**
-5. The cashier can now log in at `/zc-inventory/login`
+5. The cashier can now log in at `/zca-inventory/login`
 
 ## Complete URL Routes Guide
 
@@ -137,13 +137,13 @@ Once logged in as Owner, follow these steps:
 
 | Route | URL | Description |
 |-------|-----|-------------|
-| **Login Page** | `/zc-inventory/login` | Main login page for both Owner and Cashier |
-| **Logout** | `/zc-inventory/logout` | Logout and redirect to login page |
+| **Login Page** | `/zca-inventory/login` | Main login page for both Owner and Cashier |
+| **Logout** | `/zca-inventory/logout` | Logout and redirect to login page |
 
 **Full URL Examples:**
-- `http://yoursite.com/zc-inventory/login`
-- `http://localhost/mysite/zc-inventory/login`
-- `https://yourdomain.com/zc-inventory/login`
+- `http://yoursite.com/zca-inventory/login`
+- `http://localhost/mysite/zca-inventory/login`
+- `https://yourdomain.com/zca-inventory/login`
 
 ### Protected Routes (Authentication Required)
 
@@ -151,71 +151,71 @@ Once logged in as Owner, follow these steps:
 
 | Route | URL | Access | Description |
 |-------|-----|--------|-------------|
-| **Dashboard** | `/zc-inventory/dashboard` | Owner & Cashier | Main dashboard (different for each role) |
+| **Dashboard** | `/zca-inventory/dashboard` | Owner & Cashier | Main dashboard (different for each role) |
 
 #### Owner-Only Routes
 
 | Route | URL | Access | Description |
 |-------|-----|--------|-------------|
-| **Products** | `/zc-inventory/products` | Owner Only | Add, edit, delete products |
-| **Cashiers** | `/zc-inventory/cashiers` | Owner Only | Manage cashier accounts |
-| **Sales Report** | `/zc-inventory/sales-report` | Owner Only | View all sales and statistics |
-| **Inventory** | `/zc-inventory/inventory` | Owner Only | Update stock and view logs |
+| **Products** | `/zca-inventory/products` | Owner Only | Add, edit, delete products |
+| **Cashiers** | `/zca-inventory/cashiers` | Owner Only | Manage cashier accounts |
+| **Sales Report** | `/zca-inventory/sales-report` | Owner Only | View all sales and statistics |
+| **Inventory** | `/zca-inventory/inventory` | Owner Only | Update stock and view logs |
 
 #### Cashier Routes
 
 | Route | URL | Access | Description |
 |-------|-----|--------|-------------|
-| **Point of Sale** | `/zc-inventory/pos` | Cashier & Owner | Process sales transactions |
+| **Point of Sale** | `/zca-inventory/pos` | Cashier & Owner | Process sales transactions |
 
 ## User Workflows
 
 ### 👨‍💼 Owner Workflow
 
-1. **Login** → `http://yoursite.com/zc-inventory/login`
-2. **View Dashboard** → `/zc-inventory/dashboard`
+1. **Login** → `http://yoursite.com/zca-inventory/login`
+2. **View Dashboard** → `/zca-inventory/dashboard`
    - See total products, active cashiers, total sales, revenue
    - View low stock alerts
    - See recent sales
-3. **Manage Products** → `/zc-inventory/products`
+3. **Manage Products** → `/zca-inventory/products`
    - Add new products
    - Edit existing products
    - Delete products
-4. **Manage Cashiers** → `/zc-inventory/cashiers`
+4. **Manage Cashiers** → `/zca-inventory/cashiers`
    - Add new cashiers
    - Edit cashier details
    - Activate/Deactivate cashiers
-5. **View Sales** → `/zc-inventory/sales-report`
+5. **View Sales** → `/zca-inventory/sales-report`
    - See all sales transactions
    - Filter by cashier
    - View sale details
-6. **Manage Inventory** → `/zc-inventory/inventory`
+6. **Manage Inventory** → `/zca-inventory/inventory`
    - Update stock quantities
    - Add reasons for changes
    - View inventory logs
-7. **Process Sales** (Optional) → `/zc-inventory/pos`
+7. **Process Sales** (Optional) → `/zca-inventory/pos`
    - Owners can also use POS
-8. **Logout** → `/zc-inventory/logout`
+8. **Logout** → `/zca-inventory/logout`
 
 ### 💰 Cashier Workflow
 
-1. **Login** → `http://yoursite.com/zc-inventory/login`
-2. **View Dashboard** → `/zc-inventory/dashboard`
+1. **Login** → `http://yoursite.com/zca-inventory/login`
+2. **View Dashboard** → `/zca-inventory/dashboard`
    - See personal sales statistics
    - View total revenue
-3. **Process Sales** → `/zc-inventory/pos`
+3. **Process Sales** → `/zca-inventory/pos`
    - Search for products
    - Add items to cart
    - Enter cash received
    - Calculate change
    - Complete sale
    - Print receipt
-4. **Logout** → `/zc-inventory/logout`
+4. **Logout** → `/zca-inventory/logout`
 
 ## How to Use the Point of Sale (POS)
 
 ### Access POS
-- URL: `/zc-inventory/pos`
+- URL: `/zca-inventory/pos`
 - Available for: Cashiers and Owners
 
 ### Step-by-Step Sale Process
@@ -277,25 +277,25 @@ There are NO default credentials. You must create an owner account manually thro
 ### URL Examples
 
 **Local Development:**
-- `http://localhost/yoursite/zc-inventory/login`
-- `http://localhost:8080/zc-inventory/dashboard`
+- `http://localhost/yoursite/zca-inventory/login`
+- `http://localhost:8080/zca-inventory/dashboard`
 
 **Production:**
-- `https://yourdomain.com/zc-inventory/login`
-- `https://www.yourstore.com/zc-inventory/pos`
+- `https://yourdomain.com/zca-inventory/login`
+- `https://www.yourstore.com/zca-inventory/pos`
 
 **Subdomain:**
-- `https://inventory.yourdomain.com/zc-inventory/login`
+- `https://inventory.yourdomain.com/zca-inventory/login`
 
 ## Database Tables
 
 The plugin creates the following tables:
 
-- `wp_zc_products` - Product information
-- `wp_zc_sales` - Sales transactions
-- `wp_zc_sale_items` - Individual items in each sale
-- `wp_zc_inventory_logs` - Inventory change history
-- `wp_zc_cashier_settings` - Cashier active/inactive status
+- `wp_zca_products` - Product information
+- `wp_zca_sales` - Sales transactions
+- `wp_zca_sale_items` - Individual items in each sale
+- `wp_zca_inventory_logs` - Inventory change history
+- `wp_zca_cashier_settings` - Cashier active/inactive status
 
 ## Technical Details
 
@@ -311,16 +311,16 @@ The plugin creates the following tables:
 
 ### File Structure
 ```
-zc-inventory/
-├── z-inventory.php          # Main plugin file
+zca-inventory/
+├── zca-inventory.php          # Main plugin file
 ├── includes/                # PHP classes
-│   ├── class-zc-database.php
-│   ├── class-zc-roles.php
-│   ├── class-zc-auth.php
-│   ├── class-zc-products.php
-│   ├── class-zc-sales.php
-│   ├── class-zc-cashiers.php
-│   └── class-zc-inventory.php
+│   ├── class-zca-database.php
+│   ├── class-zca-roles.php
+│   ├── class-zca-auth.php
+│   ├── class-zca-products.php
+│   ├── class-zca-sales.php
+│   ├── class-zca-cashiers.php
+│   └── class-zca-inventory.php
 ├── templates/              # Page templates
 │   ├── header.php
 │   ├── footer.php
@@ -374,20 +374,20 @@ Modify the respective class files in the `includes/` directory
 
 ```
 PUBLIC ROUTES (No Login Required)
-├── /zc-inventory/login          → Login page (Owner & Cashier)
-└── /zc-inventory/logout         → Logout and redirect to login
+├── /zca-inventory/login          → Login page (Owner & Cashier)
+└── /zca-inventory/logout         → Logout and redirect to login
 
 PROTECTED ROUTES (Login Required)
-├── /zc-inventory/dashboard      → Dashboard (Owner & Cashier - different views)
+├── /zca-inventory/dashboard      → Dashboard (Owner & Cashier - different views)
 │
 ├── OWNER-ONLY ROUTES
-│   ├── /zc-inventory/products      → Product management
-│   ├── /zc-inventory/cashiers      → Cashier management
-│   ├── /zc-inventory/sales-report  → Sales reporting
-│   └── /zc-inventory/inventory     → Inventory management
+│   ├── /zca-inventory/products      → Product management
+│   ├── /zca-inventory/cashiers      → Cashier management
+│   ├── /zca-inventory/sales-report  → Sales reporting
+│   └── /zca-inventory/inventory     → Inventory management
 │
 └── CASHIER & OWNER ROUTES
-    └── /zc-inventory/pos           → Point of Sale (POS)
+    └── /zca-inventory/pos           → Point of Sale (POS)
 ```
 
 ### Quick Start Checklist
@@ -395,10 +395,10 @@ PROTECTED ROUTES (Login Required)
 - [ ] Activate the plugin
 - [ ] Go to Settings > Permalinks and click "Save Changes"
 - [ ] Create an Owner account via WordPress Admin > Users > Add New
-- [ ] Login at `/zc-inventory/login`
-- [ ] Add products at `/zc-inventory/products`
-- [ ] Create cashier accounts at `/zc-inventory/cashiers`
-- [ ] Start selling at `/zc-inventory/pos`
+- [ ] Login at `/zca-inventory/login`
+- [ ] Add products at `/zca-inventory/products`
+- [ ] Create cashier accounts at `/zca-inventory/cashiers`
+- [ ] Start selling at `/zca-inventory/pos`
 
 ## Troubleshooting
 
@@ -406,7 +406,7 @@ PROTECTED ROUTES (Login Required)
 - Clear browser cache
 - Check if user has correct role assigned
 - Verify user account is active (for cashiers)
-- Make sure you're using the correct login URL: `/zc-inventory/login` (NOT the WordPress admin login)
+- Make sure you're using the correct login URL: `/zca-inventory/login` (NOT the WordPress admin login)
 
 ### 404 Errors
 - **This is the most common issue!**
@@ -418,7 +418,7 @@ PROTECTED ROUTES (Login Required)
 1. Verify permalinks are flushed (Settings > Permalinks > Save Changes)
 2. Check if .htaccess file is writable (for Apache servers)
 3. Make sure you're logged in with the correct role
-4. Check if the URL is correct (e.g., `/zc-inventory/products` not `/zc-inventory/product`)
+4. Check if the URL is correct (e.g., `/zca-inventory/products` not `/zca-inventory/product`)
 
 ### Database Errors
 - Deactivate and reactivate the plugin to recreate tables

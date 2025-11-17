@@ -183,10 +183,10 @@ jQuery(document).ready(function($) {
         e.preventDefault();
 
         var formData = $(this).serialize();
-        formData += '&action=zc_add_product&nonce=' + zcInventory.nonce;
+        formData += '&action=zc_add_product&nonce=' + zcaInventory.nonce;
 
         $.ajax({
-            url: zcInventory.ajaxUrl,
+            url: zcaInventory.ajaxUrl,
             type: 'POST',
             data: formData,
             success: function(response) {
@@ -224,10 +224,10 @@ jQuery(document).ready(function($) {
         e.preventDefault();
 
         var formData = $(this).serialize();
-        formData += '&action=zc_update_product&nonce=' + zcInventory.nonce;
+        formData += '&action=zc_update_product&nonce=' + zcaInventory.nonce;
 
         $.ajax({
-            url: zcInventory.ajaxUrl,
+            url: zcaInventory.ajaxUrl,
             type: 'POST',
             data: formData,
             success: function(response) {
@@ -248,12 +248,12 @@ jQuery(document).ready(function($) {
 
         zcConfirm('Are you sure you want to delete "' + name + '"?', function() {
             $.ajax({
-                url: zcInventory.ajaxUrl,
+                url: zcaInventory.ajaxUrl,
                 type: 'POST',
                 data: {
                     action: 'zca_delete_product',
                     product_id: id,
-                    nonce: zcInventory.nonce
+                    nonce: zcaInventory.nonce
                 },
                 success: function(response) {
                     if (response.success) {

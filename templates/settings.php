@@ -140,10 +140,10 @@ jQuery(document).ready(function($) {
         e.preventDefault();
 
         var formData = $(this).serialize();
-        formData += '&action=zc_update_settings&nonce=' + zcInventory.nonce;
+        formData += '&action=zc_update_settings&nonce=' + zcaInventory.nonce;
 
         $.ajax({
-            url: zcInventory.ajaxUrl,
+            url: zcaInventory.ajaxUrl,
             type: 'POST',
             data: formData,
             beforeSend: function() {

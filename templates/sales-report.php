@@ -162,12 +162,12 @@ jQuery(document).ready(function($) {
         // Load sale items (we'll create a simple display with the available data)
         // In a real application, you'd fetch the sale items via AJAX
         $.ajax({
-            url: zcInventory.ajaxUrl,
+            url: zcaInventory.ajaxUrl,
             type: 'POST',
             data: {
                 action: 'zca_get_sale_details',
                 sale_id: saleId,
-                nonce: zcInventory.nonce
+                nonce: zcaInventory.nonce
             },
             success: function(response) {
                 if (response.success) {

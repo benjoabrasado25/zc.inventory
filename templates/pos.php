@@ -353,13 +353,13 @@ jQuery(document).ready(function($) {
         $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span> Processing...');
 
         $.ajax({
-            url: zcInventory.ajaxUrl,
+            url: zcaInventory.ajaxUrl,
             type: 'POST',
             data: {
                 action: 'zca_process_sale',
                 items: JSON.stringify(items),
                 cash_received: cashReceived,
-                nonce: zcInventory.nonce
+                nonce: zcaInventory.nonce
             },
             success: function(response) {
                 if (response.success) {

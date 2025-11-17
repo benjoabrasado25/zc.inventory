@@ -410,10 +410,10 @@ if ($is_owner) {
             e.preventDefault();
 
             var formData = $(this).serialize();
-            formData += '&action=zc_open_register&nonce=' + zcInventory.nonce;
+            formData += '&action=zc_open_register&nonce=' + zcaInventory.nonce;
 
             $.ajax({
-                url: zcInventory.ajaxUrl,
+                url: zcaInventory.ajaxUrl,
                 type: 'POST',
                 data: formData,
                 success: function(response) {
@@ -434,10 +434,10 @@ if ($is_owner) {
             e.preventDefault();
 
             var formData = $(this).serialize();
-            formData += '&action=zc_close_register&nonce=' + zcInventory.nonce;
+            formData += '&action=zc_close_register&nonce=' + zcaInventory.nonce;
 
             $.ajax({
-                url: zcInventory.ajaxUrl,
+                url: zcaInventory.ajaxUrl,
                 type: 'POST',
                 data: formData,
                 success: function(response) {

@@ -143,7 +143,7 @@ class ZCA_Inventory_Main {
             );
 
             // Localize script
-            wp_localize_script('zca-inventory-script', 'zcInventory', array(
+            wp_localize_script('zca-inventory-script', 'zcaInventory', array(
                 'ajaxUrl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('zca_inventory_nonce'),
                 'currency' => array(
@@ -175,59 +175,59 @@ class ZCA_Inventory_Main {
         // Login page
         add_rewrite_rule(
             '^zca-inventory/login/?$',
-            'index.php?zc_inventory=login',
+            'index.php?zca_inventory=login',
             'top'
         );
 
         // Dashboard
         add_rewrite_rule(
             '^zca-inventory/dashboard/?$',
-            'index.php?zc_inventory=dashboard',
+            'index.php?zca_inventory=dashboard',
             'top'
         );
 
         // Owner pages
         add_rewrite_rule(
             '^zca-inventory/cashiers/?$',
-            'index.php?zc_inventory=cashiers',
+            'index.php?zca_inventory=cashiers',
             'top'
         );
 
         add_rewrite_rule(
             '^zca-inventory/products/?$',
-            'index.php?zc_inventory=products',
+            'index.php?zca_inventory=products',
             'top'
         );
 
         add_rewrite_rule(
             '^zca-inventory/sales-report/?$',
-            'index.php?zc_inventory=sales-report',
+            'index.php?zca_inventory=sales-report',
             'top'
         );
 
         add_rewrite_rule(
             '^zca-inventory/inventory/?$',
-            'index.php?zc_inventory=inventory',
+            'index.php?zca_inventory=inventory',
             'top'
         );
 
         add_rewrite_rule(
             '^zca-inventory/settings/?$',
-            'index.php?zc_inventory=settings',
+            'index.php?zca_inventory=settings',
             'top'
         );
 
         // Cashier pages
         add_rewrite_rule(
             '^zca-inventory/pos/?$',
-            'index.php?zc_inventory=pos',
+            'index.php?zca_inventory=pos',
             'top'
         );
 
         // Logout
         add_rewrite_rule(
             '^zca-inventory/logout/?$',
-            'index.php?zc_inventory=logout',
+            'index.php?zca_inventory=logout',
             'top'
         );
     }

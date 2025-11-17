@@ -70,7 +70,7 @@
             $message.html('');
 
             $.ajax({
-                url: zcInventory.ajaxUrl,
+                url: zcaInventory.ajaxUrl,
                 type: 'POST',
                 data: {
                     action: 'zca_login',

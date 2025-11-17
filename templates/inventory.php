@@ -200,11 +200,11 @@ jQuery(document).ready(function($) {
             product_id: $('#inventory_product_id').val(),
             quantity: $('#inventory_new_quantity').val(),
             reason: reason,
-            nonce: zcInventory.nonce
+            nonce: zcaInventory.nonce
         };
 
         $.ajax({
-            url: zcInventory.ajaxUrl,
+            url: zcaInventory.ajaxUrl,
             type: 'POST',
             data: formData,
             success: function(response) {
@@ -228,12 +228,12 @@ jQuery(document).ready(function($) {
         $('#logs-content').html('<div class="text-center py-4"><div class="spinner-border" role="status"></div></div>');
 
         $.ajax({
-            url: zcInventory.ajaxUrl,
+            url: zcaInventory.ajaxUrl,
             type: 'POST',
             data: {
                 action: 'zca_get_inventory_logs',
                 product_id: id,
-                nonce: zcInventory.nonce
+                nonce: zcaInventory.nonce
             },
             success: function(response) {
                 if (response.success) {

@@ -57,7 +57,7 @@ License Data Cached (24 hours)
 
 ## Files Created/Modified
 
-### 1. **New File**: `includes/class-zc-license.php`
+### 1. **New File**: `includes/class-zca-license.php`
 
 **Class**: `ZC_License`
 
@@ -81,12 +81,12 @@ License Data Cached (24 hours)
 - Permission checks (`manage_options` capability)
 - Secure API communication via `wp_remote_post()`
 
-### 2. **Modified**: `z-inventory.php`
+### 2. **Modified**: `zca-inventory.php`
 
 **Changes:**
 ```php
 // Line 26: Added license class include
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-license.php';
+require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zca-license.php';
 
 // Line 88: Initialize license first
 ZC_License::init();
@@ -224,7 +224,7 @@ From your API Key Manager dashboard:
 
 ### 3. Test Access Control
 
-1. Go to ZC Inventory page: `/zc-inventory/dashboard`
+1. Go to ZC Inventory page: `/zca-inventory/dashboard`
 2. Should load successfully (license valid)
 3. Deactivate license from API Manager
 4. Refresh dashboard
