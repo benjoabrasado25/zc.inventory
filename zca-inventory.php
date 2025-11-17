@@ -105,6 +105,9 @@ class ZCA_Inventory_Main {
             }
         }
 
+        // Auto-activate trial license
+        ZCA_License::auto_activate_trial();
+
         // Flush rewrite rules
         $this->register_rewrite_rules();
         flush_rewrite_rules();

@@ -58,6 +58,57 @@ class ZCA_License {
     }
 
     /**
+     * Auto-activate trial on first installation
+     */
+    public static function auto_activate_trial() {
+        // Check if already activated
+        $license_key = get_option(self::$license_option);
+        if ($license_key) {
+            return; // Already has a license
+        }
+
+        // Check if trial was already attempted
+        $trial_attempted = get_option('zca_trial_attempted');
+        if ($trial_attempted) {
+            return; // Trial already attempted
+        }
+
+        // Mark trial as attempted
+        update_option('zca_trial_attempted', true);
+
+        // Try to activate trial automatically
+        // For now, just set a temporary valid license for testing
+        error_log('ZCA License: Auto-activating trial for site: ' . self::get_site_url());
+
+        // TODO: Call API to activate trial properly
+        // For development, create a fake valid license data
+        $trial_data = array(
+            'success' => true,
+            'valid' => true,
+            'data' => array(
+                'isPaid' => false,
+                'daysRemaining' => 7,
+                'trialEndDate' => date('Y-m-d H:i:s', strtotime('+7 days')),
+                'siteUrl' => self::get_site_url()
+            ),
+            'message' => 'Trial activated automatically'
+        );
+
+        set_transient(self::$license_data_option, $trial_data, 7 * DAY_IN_SECONDS);
+        error_log('ZCA License: Trial activated successfully');
+    }
+
+    /**
+     * Get site URL
+     */
+    private static function get_site_url() {
+        if (!self::$site_url) {
+            self::$site_url = get_site_url();
+        }
+        return self::$site_url;
+    }
+
+    /**
      * Add license menu to WordPress admin
      */
     public function add_license_menu() {
@@ -501,7 +552,7 @@ class ZCA_License {
         }
 
         // License invalid or not activated
-        if (!$license_data || !$license_data['valid']) {
+        if (!$license_data || !isset($license_data['valid']) || !$license_data['valid']) {
             ?>
             <div class="notice notice-error is-dismissible">
                 <p>
