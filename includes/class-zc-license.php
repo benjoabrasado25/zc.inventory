@@ -376,15 +376,21 @@ class ZC_License {
      * Show admin notices for license status
      */
     public function show_license_notices() {
+        // Don't show notices on the license settings page itself
+        $screen = get_current_screen();
+        if ($screen && $screen->id === 'settings_page_zca-license') {
+            return;
+        }
+
         $license_key = get_option(self::$license_option);
         $license_data = get_transient(self::$license_data_option);
 
         // No license key entered
         if (!$license_key) {
             ?>
-            <div class="notice notice-warning">
+            <div class="notice notice-warning is-dismissible">
                 <p>
-                    <strong>ZCA Inventory:</strong> Please enter your license key in 
+                    <strong>ZCA Inventory:</strong> Please enter your license key in
                     <a href="<?php echo admin_url('options-general.php?page=zca-license'); ?>">License Settings</a>
                 </p>
             </div>
@@ -395,9 +401,9 @@ class ZC_License {
         // License invalid or not activated
         if (!$license_data || !$license_data['valid']) {
             ?>
-            <div class="notice notice-error">
+            <div class="notice notice-error is-dismissible">
                 <p>
-                    <strong>ZCA Inventory:</strong> Your license is invalid or not activated. 
+                    <strong>ZCA Inventory:</strong> Your license is invalid or not activated.
                     <a href="<?php echo admin_url('options-general.php?page=zca-license'); ?>">Activate your license</a>
                 </p>
             </div>
@@ -408,21 +414,21 @@ class ZC_License {
         // Trial expiring soon
         if (isset($license_data['data']['isPaid']) && !$license_data['data']['isPaid']) {
             $days_remaining = $license_data['data']['daysRemaining'];
-            
+
             if ($days_remaining <= 3 && $days_remaining > 0) {
                 ?>
-                <div class="notice notice-warning">
+                <div class="notice notice-warning is-dismissible">
                     <p>
-                        <strong>ZCA Inventory:</strong> Your trial expires in <?php echo $days_remaining; ?> days. 
+                        <strong>ZCA Inventory:</strong> Your trial expires in <?php echo $days_remaining; ?> days.
                         Please contact support to upgrade to a paid license.
                     </p>
                 </div>
                 <?php
             } elseif ($days_remaining <= 0) {
                 ?>
-                <div class="notice notice-error">
+                <div class="notice notice-error is-dismissible">
                     <p>
-                        <strong>ZCA Inventory:</strong> Your trial has expired. 
+                        <strong>ZCA Inventory:</strong> Your trial has expired.
                         Please contact support to upgrade to a paid license.
                     </p>
                 </div>
