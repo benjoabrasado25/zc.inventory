@@ -86,136 +86,173 @@ class ZC_License {
         ?>
         <div class="wrap">
             <h1>ZCA Inventory License</h1>
-            
+
             <div class="card">
                 <h2>License Activation</h2>
-                <form method="post" action="options.php">
-                    <?php settings_fields('zca_license_settings'); ?>
-                    <table class="form-table">
-                        <tr>
-                            <th scope="row">
-                                <label for="<?php echo self::$license_option; ?>">License Key</label>
-                            </th>
-                            <td>
-                                <input type="text"
-                                       id="<?php echo self::$license_option; ?>"
-                                       name="<?php echo self::$license_option; ?>"
-                                       value="<?php echo esc_attr($license_key); ?>"
-                                       class="regular-text"
-                                       placeholder="ZCA-XXXX-XXXX-XXXX-XXXX">
-                                <p class="description">Enter your ZCA Inventory license key</p>
-                            </td>
-                        </tr>
-                    </table>
-                    <?php submit_button('Save License Key'); ?>
-                </form>
+
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="zca-license-key-input">License Key</label>
+                        </th>
+                        <td>
+                            <input type="text"
+                                   id="zca-license-key-input"
+                                   value="<?php echo esc_attr($license_key); ?>"
+                                   class="regular-text"
+                                   placeholder="ZCA-XXXX-XXXX-XXXX-XXXX">
+                            <p class="description">Enter your ZCA Inventory license key</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <p>
+                    <button type="button"
+                            class="button button-primary button-large"
+                            id="zca-activate-license"
+                            style="margin-top: 10px;">
+                        Activate Key
+                    </button>
+                </p>
+
+                <div id="zca-activation-message" style="margin-top: 15px;"></div>
             </div>
 
-            <?php if ($license_key): ?>
-                <div class="card" style="margin-top: 20px;">
-                    <h2>License Status</h2>
-                    
-                    <div style="margin-bottom: 15px;">
-                        <button type="button" 
-                                class="button button-primary" 
-                                id="zca-activate-license">
-                            Activate This Site
-                        </button>
-                        <button type="button" 
-                                class="button" 
-                                id="zca-check-license">
-                            Check License Status
-                        </button>
-                    </div>
-                    
-                    <div id="zca-license-status">
-                        <?php if ($license_data): ?>
-                            <table class="widefat">
+            <div class="card" style="margin-top: 20px;" id="zca-license-status-card" <?php echo !$license_data ? 'style="display:none;"' : ''; ?>>
+                <h2>License Status</h2>
+
+                <div id="zca-license-status">
+                    <?php if ($license_data): ?>
+                        <table class="widefat">
+                            <tr>
+                                <th style="width: 200px;">Status</th>
+                                <td>
+                                    <?php if ($license_data['valid']): ?>
+                                        <span style="color: green; font-weight: bold;">✓ Active</span>
+                                    <?php else: ?>
+                                        <span style="color: red; font-weight: bold;">✗ Invalid</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php if (isset($license_data['data']['isPaid'])): ?>
                                 <tr>
-                                    <th style="width: 200px;">Status</th>
+                                    <th>License Type</th>
                                     <td>
-                                        <?php if ($license_data['valid']): ?>
-                                            <span style="color: green; font-weight: bold;">✓ Active</span>
-                                        <?php else: ?>
-                                            <span style="color: red; font-weight: bold;">✗ Invalid</span>
+                                        <?php echo $license_data['data']['isPaid'] ? 'Paid License' : 'Trial License'; ?>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                            <?php if (isset($license_data['data']['daysRemaining']) && !$license_data['data']['isPaid']): ?>
+                                <tr>
+                                    <th>Trial Days Remaining</th>
+                                    <td>
+                                        <strong><?php echo $license_data['data']['daysRemaining']; ?> days</strong>
+                                        <?php if ($license_data['data']['daysRemaining'] <= 3): ?>
+                                            <span style="color: orange;"> - Trial expiring soon!</span>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
-                                <?php if (isset($license_data['data']['isPaid'])): ?>
-                                    <tr>
-                                        <th>License Type</th>
-                                        <td>
-                                            <?php echo $license_data['data']['isPaid'] ? 'Paid License' : 'Trial License'; ?>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                                <?php if (isset($license_data['data']['daysRemaining']) && !$license_data['data']['isPaid']): ?>
-                                    <tr>
-                                        <th>Trial Days Remaining</th>
-                                        <td>
-                                            <strong><?php echo $license_data['data']['daysRemaining']; ?> days</strong>
-                                            <?php if ($license_data['data']['daysRemaining'] <= 3): ?>
-                                                <span style="color: orange;"> - Trial expiring soon!</span>
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Trial Expires</th>
-                                        <td><?php echo date('F j, Y', strtotime($license_data['data']['trialEndDate'])); ?></td>
-                                    </tr>
-                                <?php endif; ?>
                                 <tr>
-                                    <th>Site URL</th>
-                                    <td><?php echo esc_html(self::$site_url); ?></td>
+                                    <th>Trial Expires</th>
+                                    <td><?php echo date('F j, Y', strtotime($license_data['data']['trialEndDate'])); ?></td>
                                 </tr>
-                            </table>
-                        <?php else: ?>
-                            <p style="color: #666;">Click "Activate This Site" to activate your license.</p>
-                        <?php endif; ?>
-                    </div>
+                            <?php endif; ?>
+                            <tr>
+                                <th>Site URL</th>
+                                <td><?php echo esc_html(self::$site_url); ?></td>
+                            </tr>
+                        </table>
+                    <?php endif; ?>
                 </div>
-            <?php endif; ?>
+            </div>
         </div>
 
         <script type="text/javascript">
         jQuery(document).ready(function($) {
             $('#zca-activate-license').on('click', function() {
                 var btn = $(this);
+                var licenseKey = $('#zca-license-key-input').val().trim();
+                var messageDiv = $('#zca-activation-message');
+
+                // Clear previous messages
+                messageDiv.html('');
+
+                // Validate license key
+                if (!licenseKey) {
+                    messageDiv.html('<div class="notice notice-error inline"><p>Please enter a license key.</p></div>');
+                    return;
+                }
+
+                // Disable button and show loading
                 btn.prop('disabled', true).text('Activating...');
-                
+
+                // Save license key and activate
                 $.post(ajaxurl, {
                     action: 'zc_activate_license',
+                    license_key: licenseKey,
                     nonce: '<?php echo wp_create_nonce('zca_license_nonce'); ?>'
                 }, function(response) {
-                    btn.prop('disabled', false).text('Activate This Site');
-                    
+                    btn.prop('disabled', false).text('Activate Key');
+
                     if (response.success) {
-                        alert('✓ License activated successfully! ' + response.data.message);
-                        location.reload();
+                        // Show success message
+                        messageDiv.html('<div class="notice notice-success inline"><p><strong>✓ Success!</strong> ' + response.data.message + '</p></div>');
+
+                        // Update license status display without page reload
+                        if (response.data.license_data) {
+                            updateLicenseStatus(response.data.license_data);
+                        }
                     } else {
-                        alert('✗ Activation failed: ' + response.data.message);
+                        // Show error message
+                        messageDiv.html('<div class="notice notice-error inline"><p><strong>✗ Error:</strong> ' + response.data.message + '</p></div>');
                     }
                 }).fail(function() {
-                    btn.prop('disabled', false).text('Activate This Site');
-                    alert('✗ Connection error. Please try again.');
+                    btn.prop('disabled', false).text('Activate Key');
+                    messageDiv.html('<div class="notice notice-error inline"><p><strong>✗ Connection Error:</strong> Unable to connect to license server. Please try again.</p></div>');
                 });
             });
 
-            $('#zca-check-license').on('click', function() {
-                var btn = $(this);
-                btn.prop('disabled', true).text('Checking...');
-                
-                $.post(ajaxurl, {
-                    action: 'zc_check_license',
-                    nonce: '<?php echo wp_create_nonce('zca_license_nonce'); ?>'
-                }, function(response) {
-                    btn.prop('disabled', false).text('Check License Status');
-                    location.reload();
-                }).fail(function() {
-                    btn.prop('disabled', false).text('Check License Status');
-                    alert('✗ Connection error. Please try again.');
-                });
-            });
+            function updateLicenseStatus(licenseData) {
+                var statusHtml = '<table class="widefat">';
+
+                // Status
+                statusHtml += '<tr><th style="width: 200px;">Status</th><td>';
+                if (licenseData.valid) {
+                    statusHtml += '<span style="color: green; font-weight: bold;">✓ Active</span>';
+                } else {
+                    statusHtml += '<span style="color: red; font-weight: bold;">✗ Invalid</span>';
+                }
+                statusHtml += '</td></tr>';
+
+                // License Type
+                if (licenseData.data && licenseData.data.isPaid !== undefined) {
+                    statusHtml += '<tr><th>License Type</th><td>';
+                    statusHtml += licenseData.data.isPaid ? 'Paid License' : 'Trial License';
+                    statusHtml += '</td></tr>';
+                }
+
+                // Trial Info
+                if (licenseData.data && licenseData.data.daysRemaining !== undefined && !licenseData.data.isPaid) {
+                    statusHtml += '<tr><th>Trial Days Remaining</th><td>';
+                    statusHtml += '<strong>' + licenseData.data.daysRemaining + ' days</strong>';
+                    if (licenseData.data.daysRemaining <= 3) {
+                        statusHtml += '<span style="color: orange;"> - Trial expiring soon!</span>';
+                    }
+                    statusHtml += '</td></tr>';
+
+                    if (licenseData.data.trialEndDate) {
+                        var expiryDate = new Date(licenseData.data.trialEndDate);
+                        statusHtml += '<tr><th>Trial Expires</th><td>' + expiryDate.toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}) + '</td></tr>';
+                    }
+                }
+
+                // Site URL
+                statusHtml += '<tr><th>Site URL</th><td><?php echo esc_html(self::$site_url); ?></td></tr>';
+                statusHtml += '</table>';
+
+                $('#zca-license-status').html(statusHtml);
+                $('#zca-license-status-card').show();
+            }
         });
         </script>
         <?php
@@ -226,17 +263,22 @@ class ZC_License {
      */
     public function activate_license() {
         check_ajax_referer('zca_license_nonce', 'nonce');
-        
+
         if (!current_user_can('manage_options')) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
-        $license_key = get_option(self::$license_option);
+        // Get license key from AJAX request
+        $license_key = isset($_POST['license_key']) ? sanitize_text_field($_POST['license_key']) : '';
 
         if (!$license_key) {
-            wp_send_json_error(array('message' => 'No license key found. Please enter your license key first.'));
+            wp_send_json_error(array('message' => 'Please enter a license key'));
         }
 
+        // Save license key to WordPress options
+        update_option(self::$license_option, $license_key);
+
+        // Call API to activate
         $response = wp_remote_post(self::$api_url . '/activate', array(
             'headers' => array('Content-Type' => 'application/json'),
             'body' => json_encode(array(
@@ -247,16 +289,23 @@ class ZC_License {
         ));
 
         if (is_wp_error($response)) {
-            wp_send_json_error(array('message' => $response->get_error_message()));
+            wp_send_json_error(array('message' => 'Connection error: ' . $response->get_error_message()));
         }
 
         $body = json_decode(wp_remote_retrieve_body($response), true);
 
-        if ($body['success']) {
+        if ($body && $body['success']) {
+            // Cache license data
             set_transient(self::$license_data_option, $body, DAY_IN_SECONDS);
-            wp_send_json_success($body);
+
+            // Return success with license data for UI update
+            wp_send_json_success(array(
+                'message' => $body['message'],
+                'license_data' => $body
+            ));
         } else {
-            wp_send_json_error($body);
+            $error_message = isset($body['message']) ? $body['message'] : 'Activation failed';
+            wp_send_json_error(array('message' => $error_message));
         }
     }
 
