@@ -46,6 +46,7 @@ class ZC_License {
         
         // AJAX handlers
         add_action('wp_ajax_zc_activate_license', array($this, 'activate_license'));
+        add_action('wp_ajax_zc_deactivate_license', array($this, 'deactivate_license'));
         add_action('wp_ajax_zc_check_license', array($this, 'check_license_ajax'));
     }
 
@@ -112,6 +113,12 @@ class ZC_License {
                             id="zca-activate-license"
                             style="margin-top: 10px;">
                         Activate Key
+                    </button>
+                    <button type="button"
+                            class="button button-large"
+                            id="zca-deactivate-license"
+                            style="margin-top: 10px; margin-left: 10px;">
+                        Deactivate Key
                     </button>
                 </p>
 
@@ -212,6 +219,52 @@ class ZC_License {
                 });
             });
 
+            $('#zca-deactivate-license').on('click', function() {
+                var btn = $(this);
+                var licenseKey = $('#zca-license-key-input').val().trim();
+                var messageDiv = $('#zca-activation-message');
+
+                // Confirm deactivation
+                if (!confirm('Are you sure you want to deactivate this license key from this site?')) {
+                    return;
+                }
+
+                // Clear previous messages
+                messageDiv.html('');
+
+                // Validate license key
+                if (!licenseKey) {
+                    messageDiv.html('<div class="notice notice-error inline"><p>No license key to deactivate.</p></div>');
+                    return;
+                }
+
+                // Disable button and show loading
+                btn.prop('disabled', true).text('Deactivating...');
+
+                // Deactivate license
+                $.post(ajaxurl, {
+                    action: 'zc_deactivate_license',
+                    license_key: licenseKey,
+                    nonce: '<?php echo wp_create_nonce('zca_license_nonce'); ?>'
+                }, function(response) {
+                    btn.prop('disabled', false).text('Deactivate Key');
+
+                    if (response.success) {
+                        // Show success message
+                        messageDiv.html('<div class="notice notice-success inline"><p><strong>✓ Success!</strong> ' + response.data.message + '</p></div>');
+
+                        // Hide license status card
+                        $('#zca-license-status-card').hide();
+                    } else {
+                        // Show error message
+                        messageDiv.html('<div class="notice notice-error inline"><p><strong>✗ Error:</strong> ' + response.data.message + '</p></div>');
+                    }
+                }).fail(function() {
+                    btn.prop('disabled', false).text('Deactivate Key');
+                    messageDiv.html('<div class="notice notice-error inline"><p><strong>✗ Connection Error:</strong> Unable to connect to license server. Please try again.</p></div>');
+                });
+            });
+
             function updateLicenseStatus(licenseData) {
                 var statusHtml = '<table class="widefat">';
 
@@ -305,6 +358,52 @@ class ZC_License {
             ));
         } else {
             $error_message = isset($body['message']) ? $body['message'] : 'Activation failed';
+            wp_send_json_error(array('message' => $error_message));
+        }
+    }
+
+    /**
+     * AJAX: Deactivate license from this site
+     */
+    public function deactivate_license() {
+        check_ajax_referer('zca_license_nonce', 'nonce');
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'Permission denied'));
+        }
+
+        // Get license key from AJAX request
+        $license_key = isset($_POST['license_key']) ? sanitize_text_field($_POST['license_key']) : '';
+
+        if (!$license_key) {
+            wp_send_json_error(array('message' => 'Please enter a license key'));
+        }
+
+        // Call API to deactivate
+        $response = wp_remote_post(self::$api_url . '/deactivate', array(
+            'headers' => array('Content-Type' => 'application/json'),
+            'body' => json_encode(array(
+                'key' => $license_key,
+                'siteUrl' => self::$site_url
+            )),
+            'timeout' => 15
+        ));
+
+        if (is_wp_error($response)) {
+            wp_send_json_error(array('message' => 'Connection error: ' . $response->get_error_message()));
+        }
+
+        $body = json_decode(wp_remote_retrieve_body($response), true);
+
+        if ($body && $body['success']) {
+            // Clear cached license data
+            delete_transient(self::$license_data_option);
+
+            wp_send_json_success(array(
+                'message' => 'License deactivated successfully from this site'
+            ));
+        } else {
+            $error_message = isset($body['message']) ? $body['message'] : 'Deactivation failed';
             wp_send_json_error(array('message' => $error_message));
         }
     }
