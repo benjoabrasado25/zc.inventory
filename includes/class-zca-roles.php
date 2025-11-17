@@ -13,12 +13,19 @@ class ZCA_Roles {
      * Create custom roles
      */
     public static function create_roles() {
+        // Remove old roles first
+        remove_role('zc_owner');
+        remove_role('zc_cashier');
+        remove_role('zca_owner');
+        remove_role('zca_cashier');
+
         // Owner role - full access
         add_role(
             'zca_owner',
             'Inventory Owner',
             array(
                 'read' => true,
+                'level_0' => true,
                 'zca_manage_cashiers' => true,
                 'zca_manage_products' => true,
                 'zca_view_sales' => true,
@@ -33,6 +40,7 @@ class ZCA_Roles {
             'Inventory Cashier',
             array(
                 'read' => true,
+                'level_0' => true,
                 'zca_view_products' => true,
                 'zca_process_sales' => true,
             )
