@@ -1,13 +1,13 @@
 <?php
 // Check access - cashier or owner
-ZC_Auth::check_access();
+ZCA_Auth::check_access();
 
 $page_title = 'Point of Sale';
 $active_page = 'pos';
 
 include 'header.php';
 
-$products = ZC_Products::get_all_products();
+$products = ZCA_Products::get_all_products();
 ?>
 
 <div class="row mb-4">
@@ -42,7 +42,7 @@ $products = ZC_Products::get_all_products();
                                         <div class="card-body">
                                             <h6 class="card-title"><?php echo esc_html($product->name); ?></h6>
                                             <p class="card-text">
-                                                <strong>Price:</strong> <?php echo ZC_Settings::format_currency($product->price); ?><br>
+                                                <strong>Price:</strong> <?php echo ZCA_Settings::format_currency($product->price); ?><br>
                                                 <strong>Stock:</strong>
                                                 <?php if ($product->stock <= 10): ?>
                                                     <span class="badge bg-warning text-dark"><?php echo $product->stock; ?></span>
@@ -79,7 +79,7 @@ $products = ZC_Products::get_all_products();
             <div class="card-footer">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Total:</h5>
-                    <h4 class="mb-0 text-primary" id="cart-total-display"><?php echo ZC_Settings::format_currency(0); ?></h4>
+                    <h4 class="mb-0 text-primary" id="cart-total-display"><?php echo ZCA_Settings::format_currency(0); ?></h4>
                 </div>
                 <button class="btn btn-danger btn-sm w-100 mt-2" id="clear-cart">
                     <i class="bi bi-trash"></i> Clear Cart
@@ -356,7 +356,7 @@ jQuery(document).ready(function($) {
             url: zcInventory.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'zc_process_sale',
+                action: 'zca_process_sale',
                 items: JSON.stringify(items),
                 cash_received: cashReceived,
                 nonce: zcInventory.nonce

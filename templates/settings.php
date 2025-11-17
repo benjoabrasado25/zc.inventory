@@ -1,16 +1,16 @@
 <?php
 // Check access - only owner
-ZC_Auth::check_access('owner');
+ZCA_Auth::check_access('owner');
 
 $page_title = 'Settings';
 $active_page = 'settings';
 
 include 'header.php';
 
-$currency_symbol = ZC_Settings::get_currency_symbol();
-$currency_code = ZC_Settings::get_currency_code();
-$currency_position = ZC_Settings::get_currency_position();
-$available_currencies = ZC_Settings::get_available_currencies();
+$currency_symbol = ZCA_Settings::get_currency_symbol();
+$currency_code = ZCA_Settings::get_currency_code();
+$currency_position = ZCA_Settings::get_currency_position();
+$available_currencies = ZCA_Settings::get_available_currencies();
 ?>
 
 <div class="row mb-4">
@@ -91,7 +91,7 @@ $available_currencies = ZC_Settings::get_available_currencies();
                 <h6>Current Display:</h6>
                 <div class="alert alert-light border">
                     <strong>Product Price:</strong><br>
-                    <span class="fs-4" id="price_preview"><?php echo ZC_Settings::format_currency(1234.56); ?></span>
+                    <span class="fs-4" id="price_preview"><?php echo ZCA_Settings::format_currency(1234.56); ?></span>
                 </div>
 
                 <h6 class="mt-3">Popular Currencies:</h6>

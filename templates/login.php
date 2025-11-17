@@ -3,7 +3,7 @@
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - Z Inventory</title>
+    <title>Login - ZCA Inventory</title>
     <?php wp_head(); ?>
 </head>
 <body class="zc-login-page">
@@ -13,7 +13,7 @@
                 <div class="card shadow">
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
-                            <h2 class="fw-bold">Z Inventory</h2>
+                            <h2 class="fw-bold">ZCA Inventory</h2>
                             <p class="text-muted">Login to your account</p>
                         </div>
 
@@ -73,11 +73,11 @@
                 url: zcInventory.ajaxUrl,
                 type: 'POST',
                 data: {
-                    action: 'zc_login',
+                    action: 'zca_login',
                     username: $('#username').val(),
                     password: $('#password').val(),
                     remember: $('#remember').is(':checked'),
-                    nonce: '<?php echo wp_create_nonce('zc_login_nonce'); ?>'
+                    nonce: '<?php echo wp_create_nonce('zca_login_nonce'); ?>'
                 },
                 success: function(response) {
                     if (response.success) {

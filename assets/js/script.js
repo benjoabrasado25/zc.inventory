@@ -279,7 +279,7 @@
             console.error('Ajax Error:', thrownError);
             if (jqxhr.status === 401) {
                 alert('Your session has expired. Please log in again.');
-                window.location.href = '/zc-inventory/login';
+                window.location.href = '/zca-inventory/login';
             }
         });
 

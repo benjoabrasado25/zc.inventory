@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_Auth {
+class ZCA_Auth {
 
     public static function init() {
         // Handle login form submission
@@ -20,7 +20,7 @@ class ZC_Auth {
      */
     public static function handle_login() {
         // Verify nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'zc_login_nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'zca_login_nonce')) {
             wp_send_json_error(array('message' => 'Security check failed'));
         }
 
@@ -36,12 +36,12 @@ class ZC_Auth {
         }
 
         // Check if user has access
-        if (!ZC_Roles::has_access($user->ID)) {
+        if (!ZCA_Roles::has_access($user->ID)) {
             wp_send_json_error(array('message' => 'You do not have access to the inventory system'));
         }
 
         // Check if cashier is active
-        if (ZC_Roles::is_cashier($user->ID)) {
+        if (ZCA_Roles::is_cashier($user->ID)) {
             if (!self::is_cashier_active($user->ID)) {
                 wp_send_json_error(array('message' => 'Your account has been deactivated. Please contact the owner.'));
             }
@@ -52,7 +52,7 @@ class ZC_Auth {
         wp_set_auth_cookie($user->ID, $remember);
 
         // Determine redirect URL
-        $redirect_url = home_url('/zc-inventory/dashboard');
+        $redirect_url = home_url('/zca-inventory/dashboard');
 
         wp_send_json_success(array(
             'message' => 'Login successful',
@@ -65,7 +65,7 @@ class ZC_Auth {
      */
     public static function logout() {
         wp_logout();
-        wp_redirect(home_url('/zc-inventory/login'));
+        wp_redirect(home_url('/zca-inventory/login'));
         exit;
     }
 
@@ -74,30 +74,30 @@ class ZC_Auth {
      */
     public static function check_access($required_role = '') {
         if (!is_user_logged_in()) {
-            wp_redirect(home_url('/zc-inventory/login'));
+            wp_redirect(home_url('/zca-inventory/login'));
             exit;
         }
 
         $user_id = get_current_user_id();
 
         // Check if user has access to inventory system
-        if (!ZC_Roles::has_access($user_id)) {
+        if (!ZCA_Roles::has_access($user_id)) {
             wp_die('You do not have access to this page.');
         }
 
         // Check specific role requirements
-        if ($required_role === 'owner' && !ZC_Roles::is_owner($user_id)) {
+        if ($required_role === 'owner' && !ZCA_Roles::is_owner($user_id)) {
             wp_die('You do not have permission to access this page.');
         }
 
-        if ($required_role === 'cashier' && !ZC_Roles::is_cashier($user_id)) {
+        if ($required_role === 'cashier' && !ZCA_Roles::is_cashier($user_id)) {
             wp_die('You do not have permission to access this page.');
         }
 
         // Check if cashier is active
-        if (ZC_Roles::is_cashier($user_id) && !self::is_cashier_active($user_id)) {
+        if (ZCA_Roles::is_cashier($user_id) && !self::is_cashier_active($user_id)) {
             wp_logout();
-            wp_redirect(home_url('/zc-inventory/login?deactivated=1'));
+            wp_redirect(home_url('/zca-inventory/login?deactivated=1'));
             exit;
         }
 
@@ -109,7 +109,7 @@ class ZC_Auth {
      */
     public static function is_cashier_active($user_id) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_cashier_settings';
+        $table = $wpdb->prefix . 'zca_cashier_settings';
 
         $is_active = $wpdb->get_var($wpdb->prepare(
             "SELECT is_active FROM $table WHERE user_id = %d",
@@ -134,11 +134,11 @@ class ZC_Auth {
 
         $user_id = get_current_user_id();
 
-        if (ZC_Roles::is_owner($user_id)) {
+        if (ZCA_Roles::is_owner($user_id)) {
             return 'owner';
         }
 
-        if (ZC_Roles::is_cashier($user_id)) {
+        if (ZCA_Roles::is_cashier($user_id)) {
             return 'cashier';
         }
 

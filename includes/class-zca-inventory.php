@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_Inventory_Manager {
+class ZCA_Inventory_Manager {
 
     public static function init() {
         // AJAX handlers
@@ -19,7 +19,7 @@ class ZC_Inventory_Manager {
      * Update inventory
      */
     public static function update_product_inventory($product_id, $new_quantity, $reason = '') {
-        $product = ZC_Products::get_product_by_id($product_id);
+        $product = ZCA_Products::get_product_by_id($product_id);
 
         if (!$product) {
             return false;
@@ -29,7 +29,7 @@ class ZC_Inventory_Manager {
         $quantity_change = $new_quantity - $quantity_before;
 
         // Update stock
-        if (!ZC_Products::update_stock($product_id, $new_quantity)) {
+        if (!ZCA_Products::update_stock($product_id, $new_quantity)) {
             return false;
         }
 
@@ -50,7 +50,7 @@ class ZC_Inventory_Manager {
      */
     public static function log_inventory_change($product_id, $quantity_before, $quantity_after, $quantity_change, $reason = '') {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_inventory_logs';
+        $table = $wpdb->prefix . 'zca_inventory_logs';
 
         $result = $wpdb->insert(
             $table,
@@ -73,9 +73,9 @@ class ZC_Inventory_Manager {
      */
     public static function get_logs($product_id = null, $limit = 50, $offset = 0) {
         global $wpdb;
-        $logs_table = $wpdb->prefix . 'zc_inventory_logs';
+        $logs_table = $wpdb->prefix . 'zca_inventory_logs';
         $users_table = $wpdb->prefix . 'users';
-        $products_table = $wpdb->prefix . 'zc_products';
+        $products_table = $wpdb->prefix . 'zca_products';
 
         $where = '';
         if ($product_id) {
@@ -99,9 +99,9 @@ class ZC_Inventory_Manager {
      * AJAX: Update inventory
      */
     public static function update_inventory() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -124,9 +124,9 @@ class ZC_Inventory_Manager {
      * AJAX: Get inventory logs
      */
     public static function get_inventory_logs() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 

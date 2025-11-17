@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: Z Inventory
- * Plugin URI: https://example.com/z-inventory
+ * Plugin Name: ZCA Inventory
+ * Plugin URI: https://example.com/zca-inventory
  * Description: A complete inventory management system with POS for WordPress with Owner and Cashier roles
  * Version: 1.0.0
  * Author: Your Name
  * Author URI: https://example.com
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: z-inventory
+ * Text Domain: zca-inventory
  */
 
 // Exit if accessed directly
@@ -17,27 +17,27 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('ZC_INVENTORY_VERSION', '1.0.0');
-define('ZC_INVENTORY_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('ZC_INVENTORY_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('ZC_INVENTORY_PLUGIN_FILE', __FILE__);
+define('ZCA_INVENTORY_VERSION', '1.0.0');
+define('ZCA_INVENTORY_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('ZCA_INVENTORY_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('ZCA_INVENTORY_PLUGIN_FILE', __FILE__);
 
 // Include required files
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-license.php';
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-database.php';
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-roles.php';
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-settings.php';
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-auth.php';
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-products.php';
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-sales.php';
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-cashiers.php';
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-inventory.php';
-require_once ZC_INVENTORY_PLUGIN_DIR . 'includes/class-zc-register.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-license.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-database.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-roles.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-settings.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-auth.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-products.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-sales.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-cashiers.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-inventory.php';
+require_once ZCA_INVENTORY_PLUGIN_DIR . 'includes/class-zca-register.php';
 
 /**
- * Main Z Inventory Class
+ * Main ZCA Inventory Class
  */
-class ZC_Inventory_Main {
+class ZCA_Inventory_Main {
 
     private static $instance = null;
 
@@ -68,10 +68,10 @@ class ZC_Inventory_Main {
 
     public function activate() {
         // Create database tables
-        ZC_Database::create_tables();
+        ZCA_Database::create_tables();
 
         // Create custom roles
-        ZC_Roles::create_roles();
+        ZCA_Roles::create_roles();
 
         // Flush rewrite rules
         $this->register_rewrite_rules();
@@ -85,16 +85,16 @@ class ZC_Inventory_Main {
 
     public function init() {
         // Initialize license first
-        ZC_License::init();
+        ZCA_License::init();
 
         // Initialize components
-        ZC_Settings::init();
-        ZC_Auth::init();
-        ZC_Products::init();
-        ZC_Sales::init();
-        ZC_Cashiers::init();
-        ZC_Inventory_Manager::init();
-        ZC_Register::init();
+        ZCA_Settings::init();
+        ZCA_Auth::init();
+        ZCA_Products::init();
+        ZCA_Sales::init();
+        ZCA_Cashiers::init();
+        ZCA_Inventory_Manager::init();
+        ZCA_Register::init();
     }
 
     public function enqueue_assets() {
@@ -118,10 +118,10 @@ class ZC_Inventory_Main {
 
             // Custom CSS
             wp_enqueue_style(
-                'zc-inventory-style',
-                ZC_INVENTORY_PLUGIN_URL . 'assets/css/style.css',
+                'zca-inventory-style',
+                ZCA_INVENTORY_PLUGIN_URL . 'assets/css/style.css',
                 array('bootstrap'),
-                ZC_INVENTORY_VERSION
+                ZCA_INVENTORY_VERSION
             );
 
             // Bootstrap JS
@@ -135,21 +135,21 @@ class ZC_Inventory_Main {
 
             // Custom JS
             wp_enqueue_script(
-                'zc-inventory-script',
-                ZC_INVENTORY_PLUGIN_URL . 'assets/js/script.js',
+                'zca-inventory-script',
+                ZCA_INVENTORY_PLUGIN_URL . 'assets/js/script.js',
                 array('jquery', 'bootstrap'),
-                ZC_INVENTORY_VERSION,
+                ZCA_INVENTORY_VERSION,
                 true
             );
 
             // Localize script
-            wp_localize_script('zc-inventory-script', 'zcInventory', array(
+            wp_localize_script('zca-inventory-script', 'zcInventory', array(
                 'ajaxUrl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('zc_inventory_nonce'),
+                'nonce' => wp_create_nonce('zca_inventory_nonce'),
                 'currency' => array(
-                    'symbol' => ZC_Settings::get_currency_symbol(),
-                    'code' => ZC_Settings::get_currency_code(),
-                    'position' => ZC_Settings::get_currency_position()
+                    'symbol' => ZCA_Settings::get_currency_symbol(),
+                    'code' => ZCA_Settings::get_currency_code(),
+                    'position' => ZCA_Settings::get_currency_position()
                 )
             ));
         }
@@ -159,12 +159,12 @@ class ZC_Inventory_Main {
         global $wp_query;
 
         // Check if we're on a plugin page
-        if (isset($wp_query->query_vars['zc_inventory'])) {
+        if (isset($wp_query->query_vars['zca_inventory'])) {
             return true;
         }
 
         // Check for admin pages
-        if (is_admin() && isset($_GET['page']) && strpos($_GET['page'], 'zc-inventory') === 0) {
+        if (is_admin() && isset($_GET['page']) && strpos($_GET['page'], 'zca-inventory') === 0) {
             return true;
         }
 
@@ -174,78 +174,78 @@ class ZC_Inventory_Main {
     public function register_rewrite_rules() {
         // Login page
         add_rewrite_rule(
-            '^zc-inventory/login/?$',
+            '^zca-inventory/login/?$',
             'index.php?zc_inventory=login',
             'top'
         );
 
         // Dashboard
         add_rewrite_rule(
-            '^zc-inventory/dashboard/?$',
+            '^zca-inventory/dashboard/?$',
             'index.php?zc_inventory=dashboard',
             'top'
         );
 
         // Owner pages
         add_rewrite_rule(
-            '^zc-inventory/cashiers/?$',
+            '^zca-inventory/cashiers/?$',
             'index.php?zc_inventory=cashiers',
             'top'
         );
 
         add_rewrite_rule(
-            '^zc-inventory/products/?$',
+            '^zca-inventory/products/?$',
             'index.php?zc_inventory=products',
             'top'
         );
 
         add_rewrite_rule(
-            '^zc-inventory/sales-report/?$',
+            '^zca-inventory/sales-report/?$',
             'index.php?zc_inventory=sales-report',
             'top'
         );
 
         add_rewrite_rule(
-            '^zc-inventory/inventory/?$',
+            '^zca-inventory/inventory/?$',
             'index.php?zc_inventory=inventory',
             'top'
         );
 
         add_rewrite_rule(
-            '^zc-inventory/settings/?$',
+            '^zca-inventory/settings/?$',
             'index.php?zc_inventory=settings',
             'top'
         );
 
         // Cashier pages
         add_rewrite_rule(
-            '^zc-inventory/pos/?$',
+            '^zca-inventory/pos/?$',
             'index.php?zc_inventory=pos',
             'top'
         );
 
         // Logout
         add_rewrite_rule(
-            '^zc-inventory/logout/?$',
+            '^zca-inventory/logout/?$',
             'index.php?zc_inventory=logout',
             'top'
         );
     }
 
     public function add_query_vars($vars) {
-        $vars[] = 'zc_inventory';
+        $vars[] = 'zca_inventory';
         return $vars;
     }
 
     public function template_redirect() {
         global $wp_query;
 
-        if (isset($wp_query->query_vars['zc_inventory'])) {
-            $page = $wp_query->query_vars['zc_inventory'];
+        if (isset($wp_query->query_vars['zca_inventory'])) {
+            $page = $wp_query->query_vars['zca_inventory'];
 
             // Handle logout
             if ($page === 'logout') {
-                ZC_Auth::logout();
+                ZCA_Auth::logout();
                 return;
             }
 
@@ -254,7 +254,7 @@ class ZC_Inventory_Main {
 
             // Check license for authenticated pages
             if (!in_array($page, $public_pages)) {
-                if (!ZC_License::is_valid()) {
+                if (!ZCA_License::is_valid()) {
                     // Redirect to WordPress admin to show license notice
                     wp_redirect(admin_url('options-general.php?page=zca-license'));
                     exit;
@@ -262,7 +262,7 @@ class ZC_Inventory_Main {
             }
 
             // Load appropriate template
-            $template_file = ZC_INVENTORY_PLUGIN_DIR . 'templates/' . $page . '.php';
+            $template_file = ZCA_INVENTORY_PLUGIN_DIR . 'templates/' . $page . '.php';
 
             if (file_exists($template_file)) {
                 include $template_file;
@@ -278,7 +278,7 @@ class ZC_Inventory_Main {
 
 // Initialize the plugin
 function zc_inventory() {
-    return ZC_Inventory_Main::get_instance();
+    return ZCA_Inventory_Main::get_instance();
 }
 
 // Start the plugin

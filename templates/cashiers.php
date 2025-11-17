@@ -1,13 +1,13 @@
 <?php
 // Check access - only owner
-ZC_Auth::check_access('owner');
+ZCA_Auth::check_access('owner');
 
 $page_title = 'Cashiers';
 $active_page = 'cashiers';
 
 include 'header.php';
 
-$cashiers = ZC_Cashiers::get_all_cashiers();
+$cashiers = ZCA_Cashiers::get_all_cashiers();
 ?>
 
 <div class="row mb-4">
@@ -227,7 +227,7 @@ jQuery(document).ready(function($) {
                 url: zcInventory.ajaxUrl,
                 type: 'POST',
                 data: {
-                    action: 'zc_toggle_cashier',
+                    action: 'zca_toggle_cashier',
                     user_id: id,
                     is_active: !isActive,
                     nonce: zcInventory.nonce

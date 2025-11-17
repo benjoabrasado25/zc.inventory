@@ -1,13 +1,13 @@
 <?php
 // Check access - only owner
-ZC_Auth::check_access('owner');
+ZCA_Auth::check_access('owner');
 
 $page_title = 'Inventory Management';
 $active_page = 'inventory';
 
 include 'header.php';
 
-$products = ZC_Products::get_all_products();
+$products = ZCA_Products::get_all_products();
 ?>
 
 <div class="row mb-4">
@@ -196,7 +196,7 @@ jQuery(document).ready(function($) {
         }
 
         var formData = {
-            action: 'zc_update_inventory',
+            action: 'zca_update_inventory',
             product_id: $('#inventory_product_id').val(),
             quantity: $('#inventory_new_quantity').val(),
             reason: reason,
@@ -231,7 +231,7 @@ jQuery(document).ready(function($) {
             url: zcInventory.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'zc_get_inventory_logs',
+                action: 'zca_get_inventory_logs',
                 product_id: id,
                 nonce: zcInventory.nonce
             },

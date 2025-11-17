@@ -1,29 +1,29 @@
 <?php
 // Check access
-ZC_Auth::check_access();
+ZCA_Auth::check_access();
 
 $page_title = 'Dashboard';
 $active_page = 'dashboard';
 
 include 'header.php';
 
-$user_role = ZC_Auth::get_user_role();
-$is_owner = ZC_Roles::is_owner();
-$is_cashier = ZC_Roles::is_cashier();
+$user_role = ZCA_Auth::get_user_role();
+$is_owner = ZCA_Roles::is_owner();
+$is_cashier = ZCA_Roles::is_cashier();
 
 // Get statistics
-$total_products = count(ZC_Products::get_all_products());
-$low_stock_products = array_filter(ZC_Products::get_all_products(), function($product) {
+$total_products = count(ZCA_Products::get_all_products());
+$low_stock_products = array_filter(ZCA_Products::get_all_products(), function($product) {
     return $product->stock <= 10;
 });
 $low_stock_count = count($low_stock_products);
 
 if ($is_owner) {
-    $all_sales = ZC_Sales::get_all_sales();
+    $all_sales = ZCA_Sales::get_all_sales();
     $total_sales = count($all_sales);
-    $sales_stats = ZC_Sales::get_sales_stats();
+    $sales_stats = ZCA_Sales::get_sales_stats();
     $total_revenue = $sales_stats->total_revenue ? $sales_stats->total_revenue : 0;
-    $all_cashiers = ZC_Cashiers::get_all_cashiers();
+    $all_cashiers = ZCA_Cashiers::get_all_cashiers();
     $active_cashiers = array_filter($all_cashiers, function($cashier) {
         return $cashier->is_active;
     });
@@ -31,17 +31,17 @@ if ($is_owner) {
 }
 
 if ($is_cashier) {
-    $my_today_stats = ZC_Register::get_cashier_today_stats(get_current_user_id());
+    $my_today_stats = ZCA_Register::get_cashier_today_stats(get_current_user_id());
     $my_today_sales = $my_today_stats->total_sales;
     $my_today_revenue = $my_today_stats->total_revenue;
-    $active_session = ZC_Register::get_active_session_data(get_current_user_id());
+    $active_session = ZCA_Register::get_active_session_data(get_current_user_id());
 }
 
 if ($is_owner) {
-    $all_today_stats = ZC_Register::get_all_today_stats();
+    $all_today_stats = ZCA_Register::get_all_today_stats();
     $today_total_sales = $all_today_stats->total_sales;
     $today_total_revenue = $all_today_stats->total_revenue;
-    $today_stats_by_cashier = ZC_Register::get_today_stats_by_cashier();
+    $today_stats_by_cashier = ZCA_Register::get_today_stats_by_cashier();
 }
 ?>
 
@@ -65,7 +65,7 @@ if ($is_owner) {
                         <strong>Total Sales Today:</strong> <?php echo $today_total_sales; ?> transaction(s)
                     </div>
                     <div class="col-md-6">
-                        <strong>Total Revenue Today:</strong> <?php echo ZC_Settings::format_currency($today_total_revenue); ?>
+                        <strong>Total Revenue Today:</strong> <?php echo ZCA_Settings::format_currency($today_total_revenue); ?>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@ if ($is_owner) {
                             <i class="bi bi-box fs-1"></i>
                         </div>
                     </div>
-                    <a href="<?php echo home_url('/zc-inventory/products'); ?>" class="btn btn-sm btn-outline-primary mt-3 w-100">
+                    <a href="<?php echo home_url('/zca-inventory/products'); ?>" class="btn btn-sm btn-outline-primary mt-3 w-100">
                         Manage Products
                     </a>
                 </div>
@@ -104,7 +104,7 @@ if ($is_owner) {
                             <i class="bi bi-people fs-1"></i>
                         </div>
                     </div>
-                    <a href="<?php echo home_url('/zc-inventory/cashiers'); ?>" class="btn btn-sm btn-outline-success mt-3 w-100">
+                    <a href="<?php echo home_url('/zca-inventory/cashiers'); ?>" class="btn btn-sm btn-outline-success mt-3 w-100">
                         Manage Cashiers
                     </a>
                 </div>
@@ -123,7 +123,7 @@ if ($is_owner) {
                             <i class="bi bi-receipt fs-1"></i>
                         </div>
                     </div>
-                    <a href="<?php echo home_url('/zc-inventory/sales-report'); ?>" class="btn btn-sm btn-outline-info mt-3 w-100">
+                    <a href="<?php echo home_url('/zca-inventory/sales-report'); ?>" class="btn btn-sm btn-outline-info mt-3 w-100">
                         View Sales
                     </a>
                 </div>
@@ -136,7 +136,7 @@ if ($is_owner) {
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-subtitle mb-2 text-muted">Total Revenue (All Time)</h6>
-                            <h2 class="card-title mb-0"><?php echo ZC_Settings::format_currency($total_revenue); ?></h2>
+                            <h2 class="card-title mb-0"><?php echo ZCA_Settings::format_currency($total_revenue); ?></h2>
                         </div>
                         <div class="text-warning">
                             <i class="bi bi-currency-dollar fs-1"></i>
@@ -170,7 +170,7 @@ if ($is_owner) {
                                         <tr>
                                             <td><?php echo esc_html($stat->cashier_name); ?></td>
                                             <td><?php echo $stat->total_sales; ?></td>
-                                            <td><?php echo ZC_Settings::format_currency($stat->total_revenue); ?></td>
+                                            <td><?php echo ZCA_Settings::format_currency($stat->total_revenue); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -190,7 +190,7 @@ if ($is_owner) {
                     <h5 class="alert-heading"><i class="bi bi-exclamation-triangle"></i> Low Stock Alert</h5>
                     <p class="mb-0"><?php echo $low_stock_count; ?> product(s) have low stock (10 or fewer items remaining).</p>
                     <hr>
-                    <a href="<?php echo home_url('/zc-inventory/inventory'); ?>" class="btn btn-warning btn-sm">
+                    <a href="<?php echo home_url('/zca-inventory/inventory'); ?>" class="btn btn-warning btn-sm">
                         Manage Inventory
                     </a>
                 </div>
@@ -207,7 +207,7 @@ if ($is_owner) {
                 </div>
                 <div class="card-body">
                     <?php
-                    $recent_sales = ZC_Sales::get_all_sales(10);
+                    $recent_sales = ZCA_Sales::get_all_sales(10);
                     if (!empty($recent_sales)):
                     ?>
                         <div class="table-responsive">
@@ -227,9 +227,9 @@ if ($is_owner) {
                                         <tr>
                                             <td>#<?php echo $sale->id; ?></td>
                                             <td><?php echo esc_html($sale->cashier_name); ?></td>
-                                            <td><?php echo ZC_Settings::format_currency($sale->total_amount); ?></td>
-                                            <td><?php echo ZC_Settings::format_currency($sale->cash_received); ?></td>
-                                            <td><?php echo ZC_Settings::format_currency($sale->change_amount); ?></td>
+                                            <td><?php echo ZCA_Settings::format_currency($sale->total_amount); ?></td>
+                                            <td><?php echo ZCA_Settings::format_currency($sale->cash_received); ?></td>
+                                            <td><?php echo ZCA_Settings::format_currency($sale->change_amount); ?></td>
                                             <td><?php echo date('M d, Y h:i A', strtotime($sale->sale_date)); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -255,7 +255,7 @@ if ($is_owner) {
                     <h5 class="alert-heading"><i class="bi bi-cash-coin"></i> Cash Register is Open</h5>
                     <div class="row">
                         <div class="col-md-4">
-                            <strong>Opening Cash:</strong> <?php echo ZC_Settings::format_currency($active_session->opening_cash); ?>
+                            <strong>Opening Cash:</strong> <?php echo ZCA_Settings::format_currency($active_session->opening_cash); ?>
                         </div>
                         <div class="col-md-4">
                             <strong>Opened At:</strong> <?php echo date('M d, Y h:i A', strtotime($active_session->opened_at)); ?>
@@ -302,7 +302,7 @@ if ($is_owner) {
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-subtitle mb-2 text-muted">My Revenue Today</h6>
-                            <h2 class="card-title mb-0"><?php echo ZC_Settings::format_currency($my_today_revenue); ?></h2>
+                            <h2 class="card-title mb-0"><?php echo ZCA_Settings::format_currency($my_today_revenue); ?></h2>
                         </div>
                         <div class="text-success">
                             <i class="bi bi-currency-dollar fs-1"></i>
@@ -336,7 +336,7 @@ if ($is_owner) {
                 <div class="card-body text-center py-5">
                     <h3><i class="bi bi-cash-register"></i> Ready to Make a Sale?</h3>
                     <p class="mb-3">Use our Point of Sale system to process transactions quickly and efficiently.</p>
-                    <a href="<?php echo home_url('/zc-inventory/pos'); ?>" class="btn btn-light btn-lg">
+                    <a href="<?php echo home_url('/zca-inventory/pos'); ?>" class="btn btn-light btn-lg">
                         <i class="bi bi-arrow-right-circle"></i> Go to POS
                     </a>
                 </div>

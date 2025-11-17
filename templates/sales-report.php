@@ -1,15 +1,15 @@
 <?php
 // Check access - only owner
-ZC_Auth::check_access('owner');
+ZCA_Auth::check_access('owner');
 
 $page_title = 'Sales Report';
 $active_page = 'sales-report';
 
 include 'header.php';
 
-$all_sales = ZC_Sales::get_all_sales();
-$sales_stats = ZC_Sales::get_sales_stats();
-$all_cashiers = ZC_Cashiers::get_all_cashiers();
+$all_sales = ZCA_Sales::get_all_sales();
+$sales_stats = ZCA_Sales::get_sales_stats();
+$all_cashiers = ZCA_Cashiers::get_all_cashiers();
 ?>
 
 <div class="row mb-4">
@@ -165,7 +165,7 @@ jQuery(document).ready(function($) {
             url: zcInventory.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'zc_get_sale_details',
+                action: 'zca_get_sale_details',
                 sale_id: saleId,
                 nonce: zcInventory.nonce
             },

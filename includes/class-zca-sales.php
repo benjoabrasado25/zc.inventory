@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_Sales {
+class ZCA_Sales {
 
     public static function init() {
         // AJAX handlers
@@ -21,9 +21,9 @@ class ZC_Sales {
      * Process a sale
      */
     public static function process_sale() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_cashier() && !ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_cashier() && !ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -35,8 +35,8 @@ class ZC_Sales {
         }
 
         global $wpdb;
-        $sales_table = $wpdb->prefix . 'zc_sales';
-        $items_table = $wpdb->prefix . 'zc_sale_items';
+        $sales_table = $wpdb->prefix . 'zca_sales';
+        $items_table = $wpdb->prefix . 'zca_sale_items';
 
         // Calculate total
         $total_amount = 0;
@@ -46,7 +46,7 @@ class ZC_Sales {
             $product_id = intval($item['product_id']);
             $quantity = intval($item['quantity']);
 
-            $product = ZC_Products::get_product_by_id($product_id);
+            $product = ZCA_Products::get_product_by_id($product_id);
 
             if (!$product) {
                 wp_send_json_error(array('message' => 'Product not found: ' . $product_id));
@@ -119,7 +119,7 @@ class ZC_Sales {
                 }
 
                 // Update product stock
-                if (!ZC_Products::reduce_stock($sale_item['product_id'], $sale_item['quantity'])) {
+                if (!ZCA_Products::reduce_stock($sale_item['product_id'], $sale_item['quantity'])) {
                     throw new Exception('Failed to update stock');
                 }
             }
@@ -147,7 +147,7 @@ class ZC_Sales {
      */
     public static function get_all_sales($limit = null, $offset = 0) {
         global $wpdb;
-        $sales_table = $wpdb->prefix . 'zc_sales';
+        $sales_table = $wpdb->prefix . 'zca_sales';
         $users_table = $wpdb->prefix . 'users';
 
         $limit_clause = $limit ? "LIMIT $offset, $limit" : '';
@@ -168,7 +168,7 @@ class ZC_Sales {
      */
     public static function get_sales_by_cashier_id($cashier_id, $limit = null, $offset = 0) {
         global $wpdb;
-        $sales_table = $wpdb->prefix . 'zc_sales';
+        $sales_table = $wpdb->prefix . 'zca_sales';
 
         $limit_clause = $limit ? "LIMIT $offset, $limit" : '';
 
@@ -188,7 +188,7 @@ class ZC_Sales {
      */
     public static function get_sale_items($sale_id) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_sale_items';
+        $table = $wpdb->prefix . 'zca_sale_items';
 
         $items = $wpdb->get_results($wpdb->prepare(
             "SELECT * FROM $table WHERE sale_id = %d",
@@ -202,9 +202,9 @@ class ZC_Sales {
      * AJAX: Get sales
      */
     public static function get_sales() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -217,9 +217,9 @@ class ZC_Sales {
      * AJAX: Get sales by cashier
      */
     public static function get_sales_by_cashier() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -234,7 +234,7 @@ class ZC_Sales {
      */
     public static function get_sales_stats($cashier_id = null, $date_from = null, $date_to = null) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_sales';
+        $table = $wpdb->prefix . 'zca_sales';
 
         $where = array();
         $values = array();
@@ -276,16 +276,16 @@ class ZC_Sales {
      * AJAX: Get sale details
      */
     public static function get_sale_details() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
         $sale_id = intval($_POST['sale_id']);
 
         global $wpdb;
-        $sales_table = $wpdb->prefix . 'zc_sales';
+        $sales_table = $wpdb->prefix . 'zca_sales';
         $users_table = $wpdb->prefix . 'users';
 
         $sale = $wpdb->get_row($wpdb->prepare(

@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_Products {
+class ZCA_Products {
 
     public static function init() {
         // AJAX handlers
@@ -23,7 +23,7 @@ class ZC_Products {
      */
     public static function get_all_products($include_deleted = false) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_products';
+        $table = $wpdb->prefix . 'zca_products';
 
         $where = $include_deleted ? '' : 'WHERE deleted_at IS NULL';
 
@@ -39,7 +39,7 @@ class ZC_Products {
      */
     public static function get_product_by_id($product_id) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_products';
+        $table = $wpdb->prefix . 'zca_products';
 
         $product = $wpdb->get_row($wpdb->prepare(
             "SELECT * FROM $table WHERE id = %d AND deleted_at IS NULL",
@@ -53,9 +53,9 @@ class ZC_Products {
      * AJAX: Add product
      */
     public static function add_product() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -70,7 +70,7 @@ class ZC_Products {
         }
 
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_products';
+        $table = $wpdb->prefix . 'zca_products';
 
         $result = $wpdb->insert(
             $table,
@@ -98,9 +98,9 @@ class ZC_Products {
      * AJAX: Update product
      */
     public static function update_product() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -116,7 +116,7 @@ class ZC_Products {
         }
 
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_products';
+        $table = $wpdb->prefix . 'zca_products';
 
         $result = $wpdb->update(
             $table,
@@ -143,16 +143,16 @@ class ZC_Products {
      * AJAX: Delete product (soft delete)
      */
     public static function delete_product() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
         $product_id = intval($_POST['product_id']);
 
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_products';
+        $table = $wpdb->prefix . 'zca_products';
 
         $result = $wpdb->update(
             $table,
@@ -173,7 +173,7 @@ class ZC_Products {
      * AJAX: Get product
      */
     public static function get_product() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
         $product_id = intval($_POST['product_id']);
         $product = self::get_product_by_id($product_id);
@@ -189,7 +189,7 @@ class ZC_Products {
      * AJAX: Get products
      */
     public static function get_products() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
         $products = self::get_all_products();
 
@@ -201,7 +201,7 @@ class ZC_Products {
      */
     public static function update_stock($product_id, $new_stock) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_products';
+        $table = $wpdb->prefix . 'zca_products';
 
         $result = $wpdb->update(
             $table,

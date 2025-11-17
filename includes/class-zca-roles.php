@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_Roles {
+class ZCA_Roles {
 
     /**
      * Create custom roles
@@ -15,37 +15,37 @@ class ZC_Roles {
     public static function create_roles() {
         // Owner role - full access
         add_role(
-            'zc_owner',
+            'zca_owner',
             'Inventory Owner',
             array(
                 'read' => true,
-                'zc_manage_cashiers' => true,
-                'zc_manage_products' => true,
-                'zc_view_sales' => true,
-                'zc_manage_inventory' => true,
-                'zc_full_access' => true,
+                'zca_manage_cashiers' => true,
+                'zca_manage_products' => true,
+                'zca_view_sales' => true,
+                'zca_manage_inventory' => true,
+                'zca_full_access' => true,
             )
         );
 
         // Cashier role - limited access
         add_role(
-            'zc_cashier',
+            'zca_cashier',
             'Inventory Cashier',
             array(
                 'read' => true,
-                'zc_view_products' => true,
-                'zc_process_sales' => true,
+                'zca_view_products' => true,
+                'zca_process_sales' => true,
             )
         );
 
         // Add capabilities to administrator
         $admin = get_role('administrator');
         if ($admin) {
-            $admin->add_cap('zc_manage_cashiers');
-            $admin->add_cap('zc_manage_products');
-            $admin->add_cap('zc_view_sales');
-            $admin->add_cap('zc_manage_inventory');
-            $admin->add_cap('zc_full_access');
+            $admin->add_cap('zca_manage_cashiers');
+            $admin->add_cap('zca_manage_products');
+            $admin->add_cap('zca_view_sales');
+            $admin->add_cap('zca_manage_inventory');
+            $admin->add_cap('zca_full_access');
         }
     }
 
@@ -53,17 +53,17 @@ class ZC_Roles {
      * Remove custom roles
      */
     public static function remove_roles() {
-        remove_role('zc_owner');
-        remove_role('zc_cashier');
+        remove_role('zca_owner');
+        remove_role('zca_cashier');
 
         // Remove capabilities from administrator
         $admin = get_role('administrator');
         if ($admin) {
-            $admin->remove_cap('zc_manage_cashiers');
-            $admin->remove_cap('zc_manage_products');
-            $admin->remove_cap('zc_view_sales');
-            $admin->remove_cap('zc_manage_inventory');
-            $admin->remove_cap('zc_full_access');
+            $admin->remove_cap('zca_manage_cashiers');
+            $admin->remove_cap('zca_manage_products');
+            $admin->remove_cap('zca_view_sales');
+            $admin->remove_cap('zca_manage_inventory');
+            $admin->remove_cap('zca_full_access');
         }
     }
 
@@ -80,7 +80,7 @@ class ZC_Roles {
             return false;
         }
 
-        return in_array('zc_owner', $user->roles) || in_array('administrator', $user->roles);
+        return in_array('zca_owner', $user->roles) || in_array('administrator', $user->roles);
     }
 
     /**
@@ -96,7 +96,7 @@ class ZC_Roles {
             return false;
         }
 
-        return in_array('zc_cashier', $user->roles);
+        return in_array('zca_cashier', $user->roles);
     }
 
     /**

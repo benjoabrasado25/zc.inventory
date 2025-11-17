@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_Cashiers {
+class ZCA_Cashiers {
 
     public static function init() {
         // AJAX handlers
@@ -22,7 +22,7 @@ class ZC_Cashiers {
      */
     public static function get_all_cashiers() {
         $args = array(
-            'role' => 'zc_cashier',
+            'role' => 'zca_cashier',
             'orderby' => 'display_name',
             'order' => 'ASC'
         );
@@ -42,7 +42,7 @@ class ZC_Cashiers {
      */
     public static function is_active($user_id) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_cashier_settings';
+        $table = $wpdb->prefix . 'zca_cashier_settings';
 
         $is_active = $wpdb->get_var($wpdb->prepare(
             "SELECT is_active FROM $table WHERE user_id = %d",
@@ -62,7 +62,7 @@ class ZC_Cashiers {
      */
     public static function set_active_status($user_id, $is_active) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_cashier_settings';
+        $table = $wpdb->prefix . 'zca_cashier_settings';
 
         // Check if record exists
         $exists = $wpdb->get_var($wpdb->prepare(
@@ -98,9 +98,9 @@ class ZC_Cashiers {
      * AJAX: Add cashier
      */
     public static function add_cashier() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -134,7 +134,7 @@ class ZC_Cashiers {
         wp_update_user(array(
             'ID' => $user_id,
             'display_name' => $display_name ? $display_name : $username,
-            'role' => 'zc_cashier'
+            'role' => 'zca_cashier'
         ));
 
         // Set as active
@@ -150,9 +150,9 @@ class ZC_Cashiers {
      * AJAX: Update cashier
      */
     public static function update_cashier() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -195,9 +195,9 @@ class ZC_Cashiers {
      * AJAX: Toggle cashier active status
      */
     public static function toggle_cashier() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -218,9 +218,9 @@ class ZC_Cashiers {
      * AJAX: Get cashiers
      */
     public static function get_cashiers() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 

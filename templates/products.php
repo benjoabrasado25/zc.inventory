@@ -1,13 +1,13 @@
 <?php
 // Check access - only owner
-ZC_Auth::check_access('owner');
+ZCA_Auth::check_access('owner');
 
 $page_title = 'Products';
 $active_page = 'products';
 
 include 'header.php';
 
-$products = ZC_Products::get_all_products();
+$products = ZCA_Products::get_all_products();
 ?>
 
 <div class="row mb-4">
@@ -251,7 +251,7 @@ jQuery(document).ready(function($) {
                 url: zcInventory.ajaxUrl,
                 type: 'POST',
                 data: {
-                    action: 'zc_delete_product',
+                    action: 'zca_delete_product',
                     product_id: id,
                     nonce: zcInventory.nonce
                 },

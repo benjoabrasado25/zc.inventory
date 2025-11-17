@@ -10,11 +10,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_License {
+class ZCA_License {
     private static $instance = null;
     private static $api_url = 'https://api.benjomabrasado.space/api';
-    private static $license_option = 'zc_license_key';
-    private static $license_data_option = 'zc_license_data';
+    private static $license_option = 'zca_license_key';
+    private static $license_data_option = 'zca_license_data';
     private static $site_url;
 
     /**
@@ -39,10 +39,10 @@ class ZC_License {
         add_action('admin_notices', array($this, 'show_license_notices'));
         
         // Check license daily
-        if (!wp_next_scheduled('zc_check_license')) {
-            wp_schedule_event(time(), 'daily', 'zc_check_license');
+        if (!wp_next_scheduled('zca_check_license')) {
+            wp_schedule_event(time(), 'daily', 'zca_check_license');
         }
-        add_action('zc_check_license', array($this, 'check_license_status'));
+        add_action('zca_check_license', array($this, 'check_license_status'));
         
         // AJAX handlers
         add_action('wp_ajax_zc_activate_license', array($this, 'activate_license'));
@@ -195,7 +195,7 @@ class ZC_License {
 
                 // Save license key and activate
                 $.post(ajaxurl, {
-                    action: 'zc_activate_license',
+                    action: 'zca_activate_license',
                     license_key: licenseKey,
                     nonce: '<?php echo wp_create_nonce('zca_license_nonce'); ?>'
                 }, function(response) {
@@ -243,7 +243,7 @@ class ZC_License {
 
                 // Deactivate license
                 $.post(ajaxurl, {
-                    action: 'zc_deactivate_license',
+                    action: 'zca_deactivate_license',
                     license_key: licenseKey,
                     nonce: '<?php echo wp_create_nonce('zca_license_nonce'); ?>'
                 }, function(response) {

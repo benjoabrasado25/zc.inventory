@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_Database {
+class ZCA_Database {
 
     /**
      * Create database tables
@@ -19,7 +19,7 @@ class ZC_Database {
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
         // Products table
-        $table_products = $wpdb->prefix . 'zc_products';
+        $table_products = $wpdb->prefix . 'zca_products';
         $sql_products = "CREATE TABLE $table_products (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             name varchar(255) NOT NULL,
@@ -36,7 +36,7 @@ class ZC_Database {
         dbDelta($sql_products);
 
         // Sales table
-        $table_sales = $wpdb->prefix . 'zc_sales';
+        $table_sales = $wpdb->prefix . 'zca_sales';
         $sql_sales = "CREATE TABLE $table_sales (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             cashier_id bigint(20) NOT NULL,
@@ -51,7 +51,7 @@ class ZC_Database {
         dbDelta($sql_sales);
 
         // Sale items table
-        $table_sale_items = $wpdb->prefix . 'zc_sale_items';
+        $table_sale_items = $wpdb->prefix . 'zca_sale_items';
         $sql_sale_items = "CREATE TABLE $table_sale_items (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             sale_id bigint(20) NOT NULL,
@@ -67,7 +67,7 @@ class ZC_Database {
         dbDelta($sql_sale_items);
 
         // Inventory logs table
-        $table_inventory_logs = $wpdb->prefix . 'zc_inventory_logs';
+        $table_inventory_logs = $wpdb->prefix . 'zca_inventory_logs';
         $sql_inventory_logs = "CREATE TABLE $table_inventory_logs (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             product_id bigint(20) NOT NULL,
@@ -85,7 +85,7 @@ class ZC_Database {
         dbDelta($sql_inventory_logs);
 
         // Cashier settings table (for storing active/inactive status)
-        $table_cashier_settings = $wpdb->prefix . 'zc_cashier_settings';
+        $table_cashier_settings = $wpdb->prefix . 'zca_cashier_settings';
         $sql_cashier_settings = "CREATE TABLE $table_cashier_settings (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             user_id bigint(20) NOT NULL,
@@ -98,7 +98,7 @@ class ZC_Database {
         dbDelta($sql_cashier_settings);
 
         // Settings table
-        $table_settings = $wpdb->prefix . 'zc_settings';
+        $table_settings = $wpdb->prefix . 'zca_settings';
         $sql_settings = "CREATE TABLE $table_settings (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             setting_key varchar(100) NOT NULL,
@@ -111,7 +111,7 @@ class ZC_Database {
         dbDelta($sql_settings);
 
         // Insert default currency settings
-        $settings_table = $wpdb->prefix . 'zc_settings';
+        $settings_table = $wpdb->prefix . 'zca_settings';
         $existing = $wpdb->get_var("SELECT COUNT(*) FROM $settings_table WHERE setting_key = 'currency_symbol'");
 
         if ($existing == 0) {
@@ -130,7 +130,7 @@ class ZC_Database {
         }
 
         // Cash register sessions table
-        $table_register = $wpdb->prefix . 'zc_cash_register';
+        $table_register = $wpdb->prefix . 'zca_cash_register';
         $sql_register = "CREATE TABLE $table_register (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             cashier_id bigint(20) NOT NULL,
@@ -157,13 +157,13 @@ class ZC_Database {
         global $wpdb;
 
         $tables = array(
-            $wpdb->prefix . 'zc_products',
-            $wpdb->prefix . 'zc_sales',
-            $wpdb->prefix . 'zc_sale_items',
-            $wpdb->prefix . 'zc_inventory_logs',
-            $wpdb->prefix . 'zc_cashier_settings',
-            $wpdb->prefix . 'zc_settings',
-            $wpdb->prefix . 'zc_cash_register'
+            $wpdb->prefix . 'zca_products',
+            $wpdb->prefix . 'zca_sales',
+            $wpdb->prefix . 'zca_sale_items',
+            $wpdb->prefix . 'zca_inventory_logs',
+            $wpdb->prefix . 'zca_cashier_settings',
+            $wpdb->prefix . 'zca_settings',
+            $wpdb->prefix . 'zca_cash_register'
         );
 
         foreach ($tables as $table) {

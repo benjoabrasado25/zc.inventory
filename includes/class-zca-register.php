@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_Register {
+class ZCA_Register {
 
     public static function init() {
         // AJAX handlers
@@ -21,9 +21,9 @@ class ZC_Register {
      * Open cash register
      */
     public static function open_register() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_cashier() && !ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_cashier() && !ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -41,7 +41,7 @@ class ZC_Register {
         }
 
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_cash_register';
+        $table = $wpdb->prefix . 'zca_cash_register';
 
         $result = $wpdb->insert(
             $table,
@@ -67,9 +67,9 @@ class ZC_Register {
      * Close cash register
      */
     public static function close_register() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_cashier() && !ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_cashier() && !ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
@@ -80,7 +80,7 @@ class ZC_Register {
 
         // Get session
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_cash_register';
+        $table = $wpdb->prefix . 'zca_cash_register';
 
         $session = $wpdb->get_row($wpdb->prepare(
             "SELECT * FROM $table WHERE id = %d AND cashier_id = %d AND status = 'open'",
@@ -135,7 +135,7 @@ class ZC_Register {
         }
 
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_cash_register';
+        $table = $wpdb->prefix . 'zca_cash_register';
 
         $session = $wpdb->get_row($wpdb->prepare(
             "SELECT * FROM $table WHERE cashier_id = %d AND status = 'open' ORDER BY opened_at DESC LIMIT 1",
@@ -149,7 +149,7 @@ class ZC_Register {
      * AJAX: Get active session
      */
     public static function get_active_session() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
         $cashier_id = get_current_user_id();
         $session = self::get_active_session_data($cashier_id);
@@ -166,7 +166,7 @@ class ZC_Register {
      */
     public static function get_session_sales_total($cashier_id, $since_datetime) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_sales';
+        $table = $wpdb->prefix . 'zca_sales';
 
         $total = $wpdb->get_var($wpdb->prepare(
             "SELECT COALESCE(SUM(total_amount), 0) FROM $table
@@ -187,7 +187,7 @@ class ZC_Register {
         }
 
         global $wpdb;
-        $sales_table = $wpdb->prefix . 'zc_sales';
+        $sales_table = $wpdb->prefix . 'zca_sales';
 
         $today_start = date('Y-m-d 00:00:00');
         $today_end = date('Y-m-d 23:59:59');
@@ -213,7 +213,7 @@ class ZC_Register {
      */
     public static function get_all_today_stats() {
         global $wpdb;
-        $sales_table = $wpdb->prefix . 'zc_sales';
+        $sales_table = $wpdb->prefix . 'zca_sales';
 
         $today_start = date('Y-m-d 00:00:00');
         $today_end = date('Y-m-d 23:59:59');
@@ -237,7 +237,7 @@ class ZC_Register {
      */
     public static function get_today_stats_by_cashier() {
         global $wpdb;
-        $sales_table = $wpdb->prefix . 'zc_sales';
+        $sales_table = $wpdb->prefix . 'zca_sales';
         $users_table = $wpdb->prefix . 'users';
 
         $today_start = date('Y-m-d 00:00:00');
@@ -266,7 +266,7 @@ class ZC_Register {
      * AJAX: Get today stats
      */
     public static function get_today_stats() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
         $cashier_id = get_current_user_id();
         $stats = self::get_cashier_today_stats($cashier_id);

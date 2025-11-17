@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ZC_Settings {
+class ZCA_Settings {
 
     public static function init() {
         // AJAX handlers
@@ -19,7 +19,7 @@ class ZC_Settings {
      */
     public static function get($key, $default = '') {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_settings';
+        $table = $wpdb->prefix . 'zca_settings';
 
         $value = $wpdb->get_var($wpdb->prepare(
             "SELECT setting_value FROM $table WHERE setting_key = %s",
@@ -34,7 +34,7 @@ class ZC_Settings {
      */
     public static function set($key, $value) {
         global $wpdb;
-        $table = $wpdb->prefix . 'zc_settings';
+        $table = $wpdb->prefix . 'zca_settings';
 
         $existing = $wpdb->get_var($wpdb->prepare(
             "SELECT id FROM $table WHERE setting_key = %s",
@@ -101,9 +101,9 @@ class ZC_Settings {
      * AJAX: Update settings
      */
     public static function update_settings() {
-        check_ajax_referer('zc_inventory_nonce', 'nonce');
+        check_ajax_referer('zca_inventory_nonce', 'nonce');
 
-        if (!ZC_Roles::is_owner()) {
+        if (!ZCA_Roles::is_owner()) {
             wp_send_json_error(array('message' => 'Permission denied'));
         }
 
