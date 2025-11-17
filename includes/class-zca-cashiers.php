@@ -11,10 +11,10 @@ class ZCA_Cashiers {
 
     public static function init() {
         // AJAX handlers
-        add_action('wp_ajax_zc_add_cashier', array(__CLASS__, 'add_cashier'));
-        add_action('wp_ajax_zc_update_cashier', array(__CLASS__, 'update_cashier'));
-        add_action('wp_ajax_zc_toggle_cashier', array(__CLASS__, 'toggle_cashier'));
-        add_action('wp_ajax_zc_get_cashiers', array(__CLASS__, 'get_cashiers'));
+        add_action('wp_ajax_zca_add_cashier', array(__CLASS__, 'add_cashier'));
+        add_action('wp_ajax_zca_update_cashier', array(__CLASS__, 'update_cashier'));
+        add_action('wp_ajax_zca_toggle_cashier', array(__CLASS__, 'toggle_cashier'));
+        add_action('wp_ajax_zca_get_cashiers', array(__CLASS__, 'get_cashiers'));
     }
 
     /**

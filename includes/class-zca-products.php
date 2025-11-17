@@ -11,11 +11,11 @@ class ZCA_Products {
 
     public static function init() {
         // AJAX handlers
-        add_action('wp_ajax_zc_add_product', array(__CLASS__, 'add_product'));
-        add_action('wp_ajax_zc_update_product', array(__CLASS__, 'update_product'));
-        add_action('wp_ajax_zc_delete_product', array(__CLASS__, 'delete_product'));
-        add_action('wp_ajax_zc_get_product', array(__CLASS__, 'get_product'));
-        add_action('wp_ajax_zc_get_products', array(__CLASS__, 'get_products'));
+        add_action('wp_ajax_zca_add_product', array(__CLASS__, 'add_product'));
+        add_action('wp_ajax_zca_update_product', array(__CLASS__, 'update_product'));
+        add_action('wp_ajax_zca_delete_product', array(__CLASS__, 'delete_product'));
+        add_action('wp_ajax_zca_get_product', array(__CLASS__, 'get_product'));
+        add_action('wp_ajax_zca_get_products', array(__CLASS__, 'get_products'));
     }
 
     /**

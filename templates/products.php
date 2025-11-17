@@ -183,7 +183,7 @@ jQuery(document).ready(function($) {
         e.preventDefault();
 
         var formData = $(this).serialize();
-        formData += '&action=zc_add_product&nonce=' + zcaInventory.nonce;
+        formData += '&action=zca_add_product&nonce=' + zcaInventory.nonce;
 
         $.ajax({
             url: zcaInventory.ajaxUrl,
@@ -224,7 +224,7 @@ jQuery(document).ready(function($) {
         e.preventDefault();
 
         var formData = $(this).serialize();
-        formData += '&action=zc_update_product&nonce=' + zcaInventory.nonce;
+        formData += '&action=zca_update_product&nonce=' + zcaInventory.nonce;
 
         $.ajax({
             url: zcaInventory.ajaxUrl,

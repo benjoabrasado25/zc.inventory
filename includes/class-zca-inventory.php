@@ -11,8 +11,8 @@ class ZCA_Inventory_Manager {
 
     public static function init() {
         // AJAX handlers
-        add_action('wp_ajax_zc_update_inventory', array(__CLASS__, 'update_inventory'));
-        add_action('wp_ajax_zc_get_inventory_logs', array(__CLASS__, 'get_inventory_logs'));
+        add_action('wp_ajax_zca_update_inventory', array(__CLASS__, 'update_inventory'));
+        add_action('wp_ajax_zca_get_inventory_logs', array(__CLASS__, 'get_inventory_logs'));
     }
 
     /**

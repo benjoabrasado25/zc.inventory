@@ -11,10 +11,10 @@ class ZCA_Sales {
 
     public static function init() {
         // AJAX handlers
-        add_action('wp_ajax_zc_process_sale', array(__CLASS__, 'process_sale'));
-        add_action('wp_ajax_zc_get_sales', array(__CLASS__, 'get_sales'));
-        add_action('wp_ajax_zc_get_sales_by_cashier', array(__CLASS__, 'get_sales_by_cashier'));
-        add_action('wp_ajax_zc_get_sale_details', array(__CLASS__, 'get_sale_details'));
+        add_action('wp_ajax_zca_process_sale', array(__CLASS__, 'process_sale'));
+        add_action('wp_ajax_zca_get_sales', array(__CLASS__, 'get_sales'));
+        add_action('wp_ajax_zca_get_sales_by_cashier', array(__CLASS__, 'get_sales_by_cashier'));
+        add_action('wp_ajax_zca_get_sale_details', array(__CLASS__, 'get_sale_details'));
     }
 
     /**

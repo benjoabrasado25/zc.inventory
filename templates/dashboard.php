@@ -410,7 +410,7 @@ if ($is_owner) {
             e.preventDefault();
 
             var formData = $(this).serialize();
-            formData += '&action=zc_open_register&nonce=' + zcaInventory.nonce;
+            formData += '&action=zca_open_register&nonce=' + zcaInventory.nonce;
 
             $.ajax({
                 url: zcaInventory.ajaxUrl,
@@ -434,7 +434,7 @@ if ($is_owner) {
             e.preventDefault();
 
             var formData = $(this).serialize();
-            formData += '&action=zc_close_register&nonce=' + zcaInventory.nonce;
+            formData += '&action=zca_close_register&nonce=' + zcaInventory.nonce;
 
             $.ajax({
                 url: zcaInventory.ajaxUrl,

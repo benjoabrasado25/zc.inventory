@@ -6,7 +6,7 @@
     <title>Login - ZCA Inventory</title>
     <?php wp_head(); ?>
 </head>
-<body class="zc-login-page">
+<body class="zca-login-page">
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">
             <div class="col-md-6 col-lg-4">
@@ -25,7 +25,7 @@
 
                         <div id="login-message"></div>
 
-                        <form id="zc-login-form">
+                        <form id="zca-login-form">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username" name="username" required>
@@ -56,7 +56,7 @@
 
     <script>
     jQuery(document).ready(function($) {
-        $('#zc-login-form').on('submit', function(e) {
+        $('#zca-login-form').on('submit', function(e) {
             e.preventDefault();
 
             var $btn = $('#login-btn');

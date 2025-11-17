@@ -11,7 +11,7 @@ class ZCA_Settings {
 
     public static function init() {
         // AJAX handlers
-        add_action('wp_ajax_zc_update_settings', array(__CLASS__, 'update_settings'));
+        add_action('wp_ajax_zca_update_settings', array(__CLASS__, 'update_settings'));
     }
 
     /**

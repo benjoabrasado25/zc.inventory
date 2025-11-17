@@ -45,9 +45,9 @@ class ZCA_License {
         add_action('zca_check_license', array($this, 'check_license_status'));
         
         // AJAX handlers
-        add_action('wp_ajax_zc_activate_license', array($this, 'activate_license'));
-        add_action('wp_ajax_zc_deactivate_license', array($this, 'deactivate_license'));
-        add_action('wp_ajax_zc_check_license', array($this, 'check_license_ajax'));
+        add_action('wp_ajax_zca_activate_license', array($this, 'activate_license'));
+        add_action('wp_ajax_zca_deactivate_license', array($this, 'deactivate_license'));
+        add_action('wp_ajax_zca_check_license', array($this, 'check_license_ajax'));
     }
 
     /**

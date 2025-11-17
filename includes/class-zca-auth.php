@@ -10,17 +10,34 @@ if (!defined('ABSPATH')) {
 class ZCA_Auth {
 
     public static function init() {
+        // Log initialization
+        error_log('ZCA_Auth::init() called - registering AJAX handlers');
+
         // Handle login form submission
-        add_action('wp_ajax_nopriv_zc_login', array(__CLASS__, 'handle_login'));
-        add_action('wp_ajax_zc_login', array(__CLASS__, 'handle_login'));
+        add_action('wp_ajax_nopriv_zca_login', array(__CLASS__, 'handle_login'));
+        add_action('wp_ajax_zca_login', array(__CLASS__, 'handle_login'));
+
+        // Debug handler
+        add_action('wp_ajax_nopriv_test_zca', array(__CLASS__, 'test_handler'));
+
+        error_log('ZCA_Auth AJAX handlers registered');
+    }
+
+    public static function test_handler() {
+        wp_send_json_success(array('message' => 'ZCA AJAX is working!'));
     }
 
     /**
      * Handle login
      */
     public static function handle_login() {
+        // Log that handler was called
+        error_log('ZCA Login handler called');
+        error_log('POST data: ' . print_r($_POST, true));
+
         // Verify nonce
         if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'zca_login_nonce')) {
+            error_log('ZCA Login: Nonce verification failed');
             wp_send_json_error(array('message' => 'Security check failed'));
         }
 

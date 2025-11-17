@@ -11,10 +11,10 @@ class ZCA_Register {
 
     public static function init() {
         // AJAX handlers
-        add_action('wp_ajax_zc_open_register', array(__CLASS__, 'open_register'));
-        add_action('wp_ajax_zc_close_register', array(__CLASS__, 'close_register'));
-        add_action('wp_ajax_zc_get_active_session', array(__CLASS__, 'get_active_session'));
-        add_action('wp_ajax_zc_get_today_stats', array(__CLASS__, 'get_today_stats'));
+        add_action('wp_ajax_zca_open_register', array(__CLASS__, 'open_register'));
+        add_action('wp_ajax_zca_close_register', array(__CLASS__, 'close_register'));
+        add_action('wp_ajax_zca_get_active_session', array(__CLASS__, 'get_active_session'));
+        add_action('wp_ajax_zca_get_today_stats', array(__CLASS__, 'get_today_stats'));
     }
 
     /**
